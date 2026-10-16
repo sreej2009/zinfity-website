@@ -16,9 +16,9 @@ function ServicesMenu({ open, onClose, id }: { open: boolean; onClose: () => voi
     <div
       id={id}
       hidden={!open}
-      className="absolute left-1/2 top-[calc(100%+0.75rem)] w-[min(44rem,90vw)] -translate-x-1/2 rounded-2xl border border-line bg-surface p-3 shadow-[0_30px_80px_-20px_rgb(23_23_23/0.25)]"
+      className="absolute left-1/2 top-[calc(100%+0.75rem)] w-[min(56rem,92vw)] -translate-x-1/2 rounded-2xl border border-line bg-surface p-3 shadow-[0_30px_80px_-20px_rgb(23_23_23/0.25)]"
     >
-      <ul className="grid grid-cols-2 gap-1">
+      <ul className="grid grid-cols-3 gap-1">
         {services.map((s, i) => {
           const Icon = serviceIcons[s.id]
           return (
@@ -127,6 +127,7 @@ export function Header() {
     if (!open) return
     stop()
     document.documentElement.style.overflow = 'hidden'
+    document.documentElement.dataset.menu = 'open'
     const menu = menuRef.current!
     const focusables = () => Array.from(menu.querySelectorAll<HTMLElement>('a[href], button'))
     focusables()[0]?.focus()
@@ -151,6 +152,7 @@ export function Header() {
     return () => {
       start()
       document.documentElement.style.overflow = ''
+      delete document.documentElement.dataset.menu
       document.removeEventListener('keydown', onKey)
       mq.removeEventListener('change', onMq)
     }
@@ -175,7 +177,7 @@ export function Header() {
         data-site-header
         className={`fixed inset-x-0 top-0 z-50 transition-[transform,background-color,border-color] duration-700 ease-[var(--ease-out-expo)] ${
           hidden && !open && !svcOpen ? '-translate-y-full' : 'translate-y-0'
-        } ${solid && !open ? 'border-b border-line bg-canvas/85 backdrop-blur-xl backdrop-saturate-150' : 'border-b border-transparent'}`}
+        } ${solid && !open ? 'border-b border-line bg-canvas/92 backdrop-blur-md' : 'border-b border-transparent'}`}
       >
         <a
           href="#main"
@@ -193,7 +195,7 @@ export function Header() {
           </Link>
 
           <nav aria-label="Primary" className="hidden lg:block">
-            <ul ref={navListRef} className="relative flex items-center gap-0.5 rounded-full border border-line bg-surface/70 p-1 backdrop-blur-md">
+            <ul ref={navListRef} className="relative flex items-center gap-0.5 rounded-full border border-line bg-surface/80 p-1">
               <span
                 aria-hidden="true"
                 className={`absolute top-1 h-[calc(100%-0.5rem)] rounded-full bg-canvas-alt transition-[left,width,opacity] duration-700 ease-[var(--ease-out-expo)] ${

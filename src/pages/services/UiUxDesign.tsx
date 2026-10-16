@@ -1,6 +1,11 @@
 import { ButtonLink } from '@/components/ui/Button'
 import { DesignCanvasDemo } from '@/components/demos/DesignCanvasDemo'
-import { Faq, Headline, ProjectTeaser, RelatedServices, ServiceMeta, ServiceSeo, TechList, pad, useServicePage } from '@/components/service/kit'
+import { Faq, Headline, HowWeStart, ProjectTeaser, RelatedServices, ServiceMeta, ServiceSeo, TechList, useServicePage } from '@/components/service/kit'
+import { DesignBoard } from '@/components/demos/DesignBoard'
+import { ArtefactSequence, CapabilitySpecimens } from '@/components/service/visuals/uiux'
+import { DesignCompare } from '@/components/service/visuals/upgrades'
+import { StepFlow } from '@/components/service/visuals/process'
+import { Component, MousePointerClick, Network, Users } from 'lucide-react'
 
 /** UI/UX: the design canvas leads; artefacts are presented like a portfolio index. */
 export default function UiUxDesign() {
@@ -10,19 +15,28 @@ export default function UiUxDesign() {
   return (
     <div ref={root}>
       <ServiceSeo id="uiux" />
-      <header className="container-x grid gap-10 pb-12 pt-[calc(var(--header-h)+3rem)] lg:grid-cols-12 lg:pt-36">
-        <div className="lg:col-span-12">
-          <ServiceMeta id="uiux" />
+      {/* Hero: headline beside a light design canvas */}
+      <header className="relative pb-16 pt-[calc(var(--header-h)+3rem)] lg:pb-24 lg:pt-32">
+        <div className="container-x grid gap-12 lg:grid-cols-12 lg:items-center">
+          <div className="lg:col-span-5">
+            <ServiceMeta id="uiux" />
+            <h1 ref={head} className="mt-6 text-[clamp(2.6rem,4.8vw,5rem)] font-medium leading-[0.93] tracking-[-0.055em]">
+              <Headline parts={d.headline} />
+            </h1>
+            <p className="mt-6 max-w-md leading-relaxed text-muted">{d.intro}</p>
+            <ButtonLink to={enquire} className="mt-8">
+              Book a design conversation
+            </ButtonLink>
+          </div>
+          <div className="lg:col-span-7">
+            <DesignBoard />
+          </div>
         </div>
-        <h1 ref={head} className="text-[clamp(2.8rem,7vw,7.4rem)] font-medium leading-[0.9] tracking-[-0.06em] lg:col-span-9">
-          <Headline parts={d.headline} />
-        </h1>
-        <p className="leading-relaxed text-muted lg:col-span-3 lg:self-end">{d.intro}</p>
       </header>
 
-      <div className="container-x">
-        <DesignCanvasDemo />
-      </div>
+      <section aria-label="Fidelity" className="container-x">
+        <DesignCanvasDemo tone="light" />
+      </section>
 
       {art && (
         <section aria-labelledby="artefacts" className="container-x py-20 lg:py-28">
@@ -32,60 +46,34 @@ export default function UiUxDesign() {
             </h2>
             <p className="max-w-sm text-muted">{art.intro}</p>
           </div>
-          <ol className="mt-12 grid gap-x-10 border-t border-fg sm:grid-cols-2 lg:grid-cols-3">
-            {art.items.map((a, i) => (
-              <li key={a.name} data-reveal className="border-b border-line py-8">
-                <p className="font-serif text-6xl italic leading-none text-accent-ink">{pad(i + 1)}</p>
-                <h3 className="mt-6 text-xl font-medium tracking-[-0.02em]">{a.name}</h3>
-                <p className="mt-2 leading-relaxed text-muted">{a.body}</p>
-              </li>
-            ))}
-          </ol>
+          <ArtefactSequence items={art.items} />
         </section>
       )}
 
       <section aria-label="Why design matters" className="border-y border-line bg-canvas-alt py-20 lg:py-28">
-        <div className="container-x grid gap-14 lg:grid-cols-2">
-          <div>
-            <h2 className="eyebrow text-muted">Without it</h2>
-            <ul className="mt-6 space-y-6">
-              {d.problems.map((p) => (
-                <li key={p.title} data-reveal>
-                  <p className="text-xl font-medium tracking-[-0.02em]">{p.title}</p>
-                  <p className="mt-1 text-muted">{p.body}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h2 className="eyebrow text-accent-ink">With it</h2>
-            <ul className="mt-6 space-y-6">
-              {d.benefits.map((b) => (
-                <li key={b.title} data-reveal>
-                  <p className="text-xl font-medium tracking-[-0.02em]">{b.title}</p>
-                  <p className="mt-1 text-muted">{b.body}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="container-x">
+          <h2 className="mb-12 max-w-2xl text-[clamp(1.9rem,3vw,2.8rem)] font-medium leading-[1.05] tracking-[-0.035em]">Why design matters</h2>
+          <DesignCompare problems={d.problems} benefits={d.benefits} />
         </div>
       </section>
 
+      <CapabilitySpecimens groups={d.capabilities} title="Research, design and systems" />
+
       <section aria-label="Method and tools" className="container-x grid gap-14 py-20 lg:grid-cols-12 lg:py-28">
-        <ol className="grid gap-6 sm:grid-cols-2 lg:col-span-7">
-          {d.process.map((p, i) => (
-            <li key={p.name} data-reveal className="rounded-2xl border border-line p-6">
-              <p className="font-mono text-[0.72rem] text-subtle">Phase {i + 1}</p>
-              <h3 className="mt-3 text-xl font-medium">{p.name}</h3>
-              <p className="mt-2 text-muted">{p.body}</p>
-            </li>
-          ))}
-        </ol>
+        <div className="lg:col-span-7">
+          <p className="eyebrow text-muted">Method</p>
+          <h2 className="mt-4 mb-10 text-[clamp(1.8rem,2.8vw,2.6rem)] font-medium tracking-[-0.03em]">From research to a design system</h2>
+          <div>
+            <StepFlow steps={d.process} icons={[Users, Network, MousePointerClick, Component]} variant="phases" columns={2} />
+          </div>
+        </div>
         <div className="lg:col-span-4 lg:col-start-9">
           <TechList groups={d.tech} />
           <Faq items={d.faq} className="mt-10" />
         </div>
       </section>
+
+      <HowWeStart id="uiux" tone="alt" />
 
       <section aria-label="Next step" className="container-x border-t border-line py-16">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center">

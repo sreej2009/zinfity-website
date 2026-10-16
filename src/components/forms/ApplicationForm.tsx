@@ -1,6 +1,7 @@
 import { useId, useRef, useState, type ChangeEvent, type FormEvent } from 'react'
 import { CheckCircle2, Loader2 } from 'lucide-react'
 import { site } from '@/config/site'
+import { dbConfigured, saveApplication } from '@/lib/supabase'
 import { Button } from '@/components/ui/Button'
 import { EMAIL_RE, openMailto, postFormData } from '@/lib/delivery'
 import { Field, FormNotice } from './Field'
@@ -36,7 +37,7 @@ export function ApplicationForm({ role, disabled }: Props) {
   const [status, setStatus] = useState<Status>({ kind: 'idle' })
   const endpoint = site.careers.endpoint
   const fallbackEmail = site.careers.email ?? site.contact.email
-  const cvRequired = Boolean(endpoint)
+  const cvRequired = Boolean(endpoint || dbConfigured)
 
   function validate(v: Values, file: File | null): Errors {
     const e: Errors = {}
@@ -78,6 +79,29 @@ export function ApplicationForm({ role, disabled }: Props) {
     if (values.website) return
 
     const focusStatus = () => requestAnimationFrame(() => statusRef.current?.focus())
+
+    if (dbConfigured) {
+      setStatus({ kind: 'submitting' })
+      const res = await saveApplication(
+        {
+          role,
+          name: values.name.trim(),
+          email: values.email.trim(),
+          phone: values.phone.trim() || null,
+          location: values.location.trim() || null,
+          link: values.link.trim() || null,
+          message: values.message.trim(),
+        },
+        cv,
+      )
+      if (res.ok) {
+        setStatus({ kind: 'success' })
+        setValues(empty)
+        setCv(null)
+      } else setStatus({ kind: 'error' })
+      focusStatus()
+      return
+    }
 
     if (endpoint) {
       setStatus({ kind: 'submitting' })

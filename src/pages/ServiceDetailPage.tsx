@@ -15,6 +15,7 @@ const pages: Record<string, LazyExoticComponent<ComponentType>> = {
   'ui-ux-design': lazy(() => import('./services/UiUxDesign')),
   ecommerce: lazy(() => import('./services/Ecommerce')),
   'ai-automation': lazy(() => import('./services/AiAutomation')),
+  'microsoft-solutions': lazy(() => import('./services/MicrosoftSolutions')),
 }
 
 export default function ServiceDetailPage() {

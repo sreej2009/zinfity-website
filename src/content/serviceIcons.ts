@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react'
-import { AppWindow, Braces, Megaphone, Network, PenTool, ShoppingBag, Smartphone, Sparkles } from 'lucide-react'
+import { AppWindow, Braces, LayoutGrid, Megaphone, Network, PenTool, ShoppingBag, Smartphone, Sparkles } from 'lucide-react'
 
 export const serviceIcons: Record<string, LucideIcon> = {
   web: AppWindow,
@@ -10,4 +10,5 @@ export const serviceIcons: Record<string, LucideIcon> = {
   uiux: PenTool,
   commerce: ShoppingBag,
   ai: Sparkles,
+  microsoft: LayoutGrid,
 }

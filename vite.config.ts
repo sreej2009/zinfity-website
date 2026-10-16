@@ -24,7 +24,6 @@ function routes() {
     '/services',
     ...services.map((s) => `/services/${s.slug}`),
     '/solutions',
-    '/work',
     ...projects.map((p) => `/work/${p.slug}`),
     '/about',
     '/blog',

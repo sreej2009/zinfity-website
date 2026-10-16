@@ -2,7 +2,6 @@ import { useRef } from 'react'
 import { Link } from 'react-router'
 import { projects, projectPath } from '@/content/work'
 import { ProjectArt } from '@/visuals/ProjectArt'
-import { ArrowLink } from '@/components/blocks/ArrowLink'
 import { gsap, MOTION, useGSAP } from '@/lib/gsap'
 
 /** Home: one curated project whose canvas opens to full bleed as it scrolls in. */
@@ -30,7 +29,7 @@ export function FeaturedProject() {
     <section ref={root} aria-labelledby="featured-title" className="relative">
       <Link to={projectPath(project)} className="group block" aria-labelledby="featured-title">
         <div data-canvas className="@container theme-dark relative h-[78svh] min-h-[28rem] overflow-hidden bg-canvas" style={{ clipPath: 'inset(0% 0% 0% 0%)' }}>
-          <div data-art className="absolute inset-0">
+          <div data-art className="absolute inset-0 will-change-transform">
             <div className="absolute inset-0 transition-transform duration-[1.6s] ease-[var(--ease-out-expo)] group-hover:scale-[1.03]">
               <ProjectArt art={project.art} />
             </div>
@@ -57,9 +56,6 @@ export function FeaturedProject() {
           </div>
         </div>
       </Link>
-      <div className="container-x flex justify-end py-6">
-        <ArrowLink to="/work">See all work</ArrowLink>
-      </div>
     </section>
   )
 }

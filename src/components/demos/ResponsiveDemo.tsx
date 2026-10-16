@@ -1,20 +1,55 @@
-import { useId, useState } from 'react'
+import { useId, useRef, useState } from 'react'
 import { Monitor, Smartphone, Tablet } from 'lucide-react'
 import { DemoFrame, Seg } from './DemoFrame'
+import { ScrollTrigger, useGSAP } from '@/lib/gsap'
 
 type Device = 'desktop' | 'tablet' | 'mobile'
 const widths: Record<Device, string> = { desktop: '100%', tablet: '64%', mobile: '34%' }
 
-/** Web: a live page that reflows across devices, with an editable headline. */
-export function ResponsiveDemo() {
-  const [device, setDevice] = useState<Device>('desktop')
+const order: Device[] = ['desktop', 'tablet', 'mobile']
+
+/**
+ * Web: a live page that reflows across devices, with an editable headline.
+ * With `scrollDriven`, scrolling steps it desktop → tablet → mobile until the
+ * visitor picks a device themselves.
+ */
+export function ResponsiveDemo({ tone = 'dark', scrollDriven = false, compact = false }: { tone?: 'dark' | 'light'; scrollDriven?: boolean; compact?: boolean }) {
+  const [device, setDeviceState] = useState<Device>('desktop')
+  const manual = useRef(false)
+  const root = useRef<HTMLDivElement>(null)
+  const setDevice = (d: Device) => {
+    manual.current = true
+    setDeviceState(d)
+  }
+
+  useGSAP(
+    () => {
+      if (!scrollDriven || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+      ScrollTrigger.create({
+        trigger: root.current,
+        // Run the whole desktop → tablet → mobile sequence while the demo is
+        // still on screen. clamp() keeps the start at 0 when the demo is in
+        // the first viewport (hero), so the first scroll already advances it.
+        start: 'clamp(top 60%)',
+        end: 'clamp(bottom 45%)',
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          if (manual.current) return
+          setDeviceState(order[Math.min(2, Math.floor(self.progress * 3))])
+        },
+      })
+    },
+    { scope: root, dependencies: [scrollDriven] },
+  )
   const [headline, setHeadline] = useState('Clear websites for growing businesses')
   const id = useId()
   const cols = device === 'desktop' ? 'grid-cols-3' : device === 'tablet' ? 'grid-cols-2' : 'grid-cols-1'
   const small = device === 'mobile'
 
   return (
+    <div ref={root}>
     <DemoFrame
+      tone={tone}
       title="One layout, every screen"
       controls={
         <>
@@ -42,7 +77,7 @@ export function ResponsiveDemo() {
         </label>
       }
     >
-      <div className="flex min-h-[26rem] items-start justify-center px-4 py-8 sm:px-8 lg:min-h-[30rem]">
+      <div className={`flex items-start justify-center px-4 py-8 sm:px-8 ${compact ? 'min-h-[22rem] lg:min-h-[26rem]' : 'min-h-[26rem] lg:min-h-[30rem]'}`}>
         <div
           className="w-full overflow-hidden rounded-xl border border-line-strong bg-[#f7f5f0] text-[#171717] shadow-2xl transition-[max-width] duration-700 ease-[var(--ease-in-out-quart)]"
           style={{ maxWidth: widths[device], minWidth: '15rem' }}
@@ -94,5 +129,6 @@ export function ResponsiveDemo() {
         </div>
       </div>
     </DemoFrame>
+    </div>
   )
 }

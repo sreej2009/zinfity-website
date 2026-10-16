@@ -10,8 +10,7 @@ short teaser (one line + link) but never the full section, its detailed text or 
 | Engagement models (how to work with us) | `/services` | — |
 | Service detail (problems, benefits, capabilities, demo, tech, FAQ) | `/services/:slug` | — |
 | System architecture map, solution scenarios, four disciplines | `/solutions` | — |
-| Portfolio canvases, category filters | `/work` | Home: one curated project |
-| Case-study narrative (problem, approach, solution, deliverables, stack) | `/work/:slug` | Service pages: link to the related study |
+| Case-study narrative (problem, approach, solution, deliverables, stack) | `/work/:slug` | Home: one curated project; service pages: link to the related study |
 | Company position, philosophy, principles, five-step method, working model, commitments | `/about` | — |
 | Articles, categories, search | `/blog`, `/blog/:slug` | — |
 | Vacancy status, culture, roles, applications | `/careers`, `/careers/:slug` | — |
@@ -35,7 +34,6 @@ short teaser (one line + link) but never the full section, its detailed text or 
 | `/services` | Numbered directory rail + sticky dark illustration stage | Line-drawn illustrations, rail progress |
 | `/services/*` | One bespoke interactive demonstration per service | Demo-specific (reflow, screen transitions, data flow…) |
 | `/solutions` | Layered architecture map as the page itself | Path highlighting through layers |
-| `/work` | Edge-to-edge project canvases, filter bar | Clip reveals, cursor-follow labels |
 | `/work/:slug` | Sticky dark canvas that zooms per chapter | Scroll-driven focus transitions |
 | `/about` | Typographic manifesto, chapters I–IV | Word-level reveals, rolling stage numbers |
 | `/blog`, `/blog/:slug` | Publication masthead, reading column | Minimal (reading first) |

@@ -38,12 +38,13 @@ export function ServiceStage({
           backgroundImage:
             'linear-gradient(rgb(237 233 227 / 0.04) 1px, transparent 1px), linear-gradient(90deg, rgb(237 233 227 / 0.04) 1px, transparent 1px)',
           backgroundSize: '32px 32px',
-          maskImage: 'radial-gradient(80% 80% at 50% 50%, #000, transparent)',
         }}
       />
+      {/* Fade the grid towards the edges (a static overlay is far cheaper to paint than a mask). */}
+      <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(80%_80%_at_50%_50%,transparent_40%,var(--color-canvas))]" />
       <div
         aria-hidden="true"
-        className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent/20 blur-3xl transition-transform duration-1000"
+        className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[radial-gradient(closest-side,rgb(199_155_105/0.28),transparent)] transition-transform duration-1000"
         style={{ transform: `translate(${(glowShift % 3) * -30}px, ${(glowShift % 4) * 30}px)` }}
       />
       <ServiceVisual key={replayKey ?? visual} visual={visual} className={`absolute inset-0 h-full w-full ${padding}`} />

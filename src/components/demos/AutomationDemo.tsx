@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Bot, Hand } from 'lucide-react'
 import { DemoFrame, Seg } from './DemoFrame'
+import { useInView } from '@/hooks/useInView'
 import { Flip } from '@/lib/gsap'
 
 const requests = [
@@ -14,9 +15,12 @@ const columns = ['Inbox', 'Classified', 'Routed', 'Ready for review']
 
 /** AI & automation: the same requests handled manually vs. by a connected workflow. */
 export function AutomationDemo() {
-  const [mode, setMode] = useState<'manual' | 'auto'>('manual')
-  const [stage, setStage] = useState<number[]>(requests.map(() => 0))
+  // Populated starting state: requests already spread across the pipeline.
+  const [mode, setMode] = useState<'manual' | 'auto'>('auto')
+  const [stage, setStage] = useState<number[]>([3, 2, 1, 1, 0])
   const board = useRef<HTMLDivElement>(null)
+  const root = useRef<HTMLDivElement>(null)
+  const seen = useInView(root, { once: true, threshold: 0.4 })
   const flipState = useRef<Flip.FlipState | null>(null)
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
 
@@ -39,6 +43,7 @@ export function AutomationDemo() {
     setMode(m)
     if (m === 'manual') return move(requests.map(() => 0))
     let current = requests.map(() => 0)
+    move([...current])
     // Each request advances one column at a time, staggered.
     for (let step = 1; step <= 3; step++) {
       requests.forEach((_, i) => {
@@ -46,13 +51,20 @@ export function AutomationDemo() {
           setTimeout(() => {
             current = current.map((v, k) => (k === i ? step : v))
             move([...current])
-          }, (step - 1) * 900 + i * 160),
+          }, 500 + (step - 1) * 900 + i * 160),
         )
       })
     }
   }
 
+  // Replay the automated flow from the inbox when the board scrolls into view.
+  useEffect(() => {
+    if (seen && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) switchMode('auto')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [seen])
+
   return (
+    <div ref={root}>
     <DemoFrame
       title="From manual triage to a connected workflow"
       controls={
@@ -97,6 +109,7 @@ export function AutomationDemo() {
         ))}
       </div>
     </DemoFrame>
+    </div>
   )
 }
 

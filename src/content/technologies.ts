@@ -18,7 +18,7 @@ import { withBase } from '@/lib/base'
 export type Technology = { name: string; logo: string }
 export type TechCategory = { id: string; label: string; items: Technology[] }
 
-const t = (name: string, file: string): Technology => ({ name, logo: withBase(`/tech/${file}.svg`) })
+const t = (name: string, file: string): Technology => ({ name, logo: withBase(`/tech/${file}.webp`) })
 
 export const techCategories: TechCategory[] = [
   {

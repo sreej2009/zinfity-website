@@ -192,8 +192,8 @@ export function HomeHero() {
             <ButtonLink to="/contact" size={isDesktop ? 'md' : 'sm'}>
               Start a Project
             </ButtonLink>
-            <ButtonLink to="/work" variant="ghost" size={isDesktop ? 'md' : 'sm'}>
-              Explore Our Work
+            <ButtonLink to="/services" variant="ghost" size={isDesktop ? 'md' : 'sm'}>
+              Explore Our Services
             </ButtonLink>
           </div>
         </div>

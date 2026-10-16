@@ -10,7 +10,7 @@ const notes = [
 ]
 
 /** UI/UX: one screen at four levels of fidelity, controlled by a slider. */
-export function DesignCanvasDemo() {
+export function DesignCanvasDemo({ tone = 'dark' }: { tone?: 'dark' | 'light' }) {
   const [level, setLevel] = useState(2)
   const id = useId()
   const sketch = level === 0
@@ -25,6 +25,7 @@ export function DesignCanvasDemo() {
 
   return (
     <DemoFrame
+      tone={tone}
       title="From sketch to design system"
       caption={
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -49,7 +50,7 @@ export function DesignCanvasDemo() {
       }
     >
       <div className="grid items-center gap-8 px-5 py-10 lg:grid-cols-12 lg:px-10">
-        <div className="mx-auto w-full max-w-md rounded-2xl bg-[#f7f5f0] p-5 text-[#171717] lg:col-span-7" aria-hidden="true">
+        <div className="mx-auto w-full max-w-md rounded-2xl border border-[#171717]/10 bg-[#f7f5f0] p-5 text-[#171717] shadow-[0_24px_40px_-30px_rgb(58_42_29/0.5)] lg:col-span-7" aria-hidden="true">
           <div className="flex items-center justify-between">
             <span className={box(`h-6 w-24 ${ui ? 'bg-[#171717]' : ''}`)} />
             <span className={box(`h-7 w-7 rounded-full ${ui ? 'bg-[linear-gradient(135deg,#e8cfae,#a8754c)]' : ''}`)} />

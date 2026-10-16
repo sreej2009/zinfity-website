@@ -18,7 +18,7 @@ export type Project = {
   slug: string
   title: string
   category: string
-  /** Filter group on /work */
+  /** Project grouping (kept for content organisation) */
   group: 'Platforms' | 'Commerce' | 'Mobile' | 'Automation'
   description: string
   overview: string
@@ -160,7 +160,6 @@ export const projects: Project[] = [
   },
 ]
 
-export const projectGroups = ['All', ...Array.from(new Set(projects.map((p) => p.group)))] as const
 export const projectBySlug = (slug: string) => projects.find((p) => p.slug === slug)
 export const projectById = (id: string) => projects.find((p) => p.id === id)
 export const projectPath = (p: Pick<Project, 'slug'>) => `/work/${p.slug}`

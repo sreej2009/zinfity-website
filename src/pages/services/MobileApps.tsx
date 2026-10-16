@@ -1,8 +1,11 @@
 import { ButtonLink } from '@/components/ui/Button'
 import { PhoneDemo } from '@/components/demos/PhoneDemo'
-import { Faq, Headline, ProjectTeaser, RelatedServices, ServiceMeta, ServiceSeo, TechList, useServicePage } from '@/components/service/kit'
+import { Faq, Headline, HowWeStart, ProjectTeaser, RelatedServices, ServiceMeta, ServiceSeo, TechList, useServicePage } from '@/components/service/kit'
+import { PhonePanels, ReleaseJourney } from '@/components/service/visuals/mobile'
+import { CapabilityPhone } from '@/components/service/visuals/upgrades'
+import { BenefitPhones, PlatformPicker, WhyTeams } from '@/components/service/visuals/mobile-extra'
 
-/** Mobile: hero split with the phone demo; the platform decision is the centrepiece. */
+/** Mobile: light phone hero, platform decision, release journey, benefits, process. */
 export default function MobileApps() {
   const { detail: d, enquire, root, head } = useServicePage('mobile')
   const compare = d.signature.kind === 'compare' ? d.signature : null
@@ -22,7 +25,9 @@ export default function MobileApps() {
           </ButtonLink>
         </div>
         <div className="lg:col-span-6">
-          <PhoneDemo />
+          <PhonePanels>
+            <PhoneDemo tone="light" />
+          </PhonePanels>
         </div>
       </header>
 
@@ -33,55 +38,29 @@ export default function MobileApps() {
               {compare.title}
             </h2>
             <p className="mt-4 max-w-xl text-muted">{compare.intro}</p>
-            <div className="mt-12 overflow-x-auto">
-              <table className="w-full min-w-[42rem] border-collapse text-left">
-                <thead>
-                  <tr className="border-b border-fg">
-                    <th scope="col" className="sr-only">
-                      Criteria
-                    </th>
-                    {compare.options.map((o, i) => (
-                      <th key={o.name} scope="col" className="py-4 pr-6 text-xl font-medium tracking-[-0.02em]">
-                        {o.name}
-                        {i === 0 && <span className="eyebrow ml-3 align-middle text-[0.58rem] text-accent-ink">Usual start</span>}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {(['bestFor', 'consider'] as const).map((row) => (
-                    <tr key={row} className="border-b border-line align-top">
-                      <th scope="row" className="eyebrow w-28 py-6 pr-4 font-normal text-subtle">
-                        {row === 'bestFor' ? 'Best for' : 'Consider'}
-                      </th>
-                      {compare.options.map((o) => (
-                        <td key={o.name} className={`py-6 pr-6 leading-relaxed ${row === 'consider' ? 'text-muted' : ''}`}>
-                          {o[row]}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="mt-12">
+              <PlatformPicker options={compare.options} />
             </div>
           </div>
         </section>
       )}
 
-      <section aria-labelledby="why" className="container-x py-20 lg:py-28">
-        <h2 id="why" className="eyebrow text-muted">
-          Why teams come to us
-        </h2>
-        <ol className="mt-10 grid gap-12 md:grid-cols-3">
-          {d.problems.map((p, i) => (
-            <li key={p.title} data-reveal>
-              <span className="metal-text text-[clamp(4rem,7vw,6.5rem)] font-medium leading-none tracking-[-0.06em]">{i + 1}</span>
-              <h3 className="mt-4 text-xl font-medium tracking-[-0.02em]">{p.title}</h3>
-              <p className="mt-2 leading-relaxed text-muted">{p.body}</p>
-            </li>
-          ))}
-        </ol>
+      {/* Release journey (illustrative stages) */}
+      <section aria-labelledby="release" className="container-x py-20 lg:py-28">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <h2 id="release" className="max-w-2xl text-[clamp(1.9rem,3.2vw,3rem)] font-medium leading-[1.05] tracking-[-0.035em]">
+            From first launch to the app store
+          </h2>
+          <p className="max-w-sm text-[0.92rem] text-muted">Illustrative screens. Store listings are prepared for your own developer accounts — nothing here is a live listing.</p>
+        </div>
+        <div className="mt-14">
+          <ReleaseJourney />
+        </div>
       </section>
+
+      <BenefitPhones items={d.benefits} title="Why it pays to build it properly" />
+
+      <WhyTeams items={d.problems} />
 
       <section aria-label="Build and release" className="border-t border-line py-20 lg:py-28">
         <div className="container-x grid gap-14 lg:grid-cols-12">
@@ -99,23 +78,16 @@ export default function MobileApps() {
           </div>
           <div className="lg:col-span-6 lg:col-start-7">
             <h2 className="eyebrow text-muted">Capabilities</h2>
-            <div className="mt-6 grid gap-8 sm:grid-cols-3">
-              {d.capabilities.map((c) => (
-                <div key={c.group}>
-                  <h3 className="font-medium">{c.group}</h3>
-                  <ul className="mt-3 space-y-1.5 text-[0.94rem] text-muted">
-                    {c.items.map((x) => (
-                      <li key={x}>{x}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+            <div className="mt-6">
+              <CapabilityPhone groups={d.capabilities} />
             </div>
             <h2 className="eyebrow mt-14 text-muted">Technology</h2>
             <TechList groups={d.tech} className="mt-6" />
           </div>
         </div>
       </section>
+
+      <HowWeStart id="mobile" />
 
       <section aria-label="Questions and next step" className="border-t border-line bg-canvas-alt py-20 lg:py-28">
         <div className="container-x grid gap-14 lg:grid-cols-12">

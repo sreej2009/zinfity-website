@@ -1,8 +1,12 @@
 import { ButtonLink } from '@/components/ui/Button'
 import { ResponsiveDemo } from '@/components/demos/ResponsiveDemo'
-import { Faq, Headline, ProjectTeaser, RelatedServices, ServiceMeta, ServiceSeo, TechList, pad, useServicePage } from '@/components/service/kit'
+import { Benefits, Faq, Headline, HowWeStart, ProjectTeaser, RelatedServices, ServiceMeta, ServiceSeo, TechList, useServicePage } from '@/components/service/kit'
+import { FloatingDevices, LayerStack, SiteGallery } from '@/components/service/visuals/web'
+import { WebAudit } from '@/components/service/visuals/upgrades'
+import { ProcessTrack, SymptomFixer } from '@/components/service/visuals/web-extra'
+import { Gauge, PenLine, Sprout } from 'lucide-react'
 
-/** Web: the responsive browser demo leads; checklist, symptoms, process and tech follow. */
+/** Web: live browser hero; site types, benefits, checklist, capabilities, symptoms, process, tech, first step. */
 export default function WebDevelopment() {
   const { detail: d, enquire, root, head } = useServicePage('web')
   const checklist = d.signature.kind === 'checklist' ? d.signature : null
@@ -10,90 +14,83 @@ export default function WebDevelopment() {
   return (
     <div ref={root}>
       <ServiceSeo id="web" />
-      <header className="container-x pb-12 pt-[calc(var(--header-h)+3rem)] lg:pt-36">
-        <ServiceMeta id="web" />
-        <div className="mt-6 grid gap-10 lg:grid-cols-12 lg:items-end">
-          <h1 ref={head} className="text-[clamp(2.6rem,5.8vw,6rem)] font-medium leading-[0.95] tracking-[-0.05em] lg:col-span-8">
-            <Headline parts={d.headline} />
-          </h1>
-          <div className="lg:col-span-4">
-            <p className="leading-relaxed text-muted">{d.intro}</p>
-            <ButtonLink to={enquire} className="mt-6">
+      {/* Hero: headline beside a live browser that reflows as you scroll */}
+      <header className="relative overflow-hidden pb-16 pt-[calc(var(--header-h)+3rem)] lg:pb-24 lg:pt-32">
+        <div aria-hidden="true" className="pointer-events-none absolute right-[-10%] top-0 -z-10 h-[40rem] w-[60rem] rounded-full bg-[radial-gradient(closest-side,rgb(199_155_105/0.16),transparent)]" />
+        <div className="container-x grid gap-12 lg:grid-cols-12 lg:items-center">
+          <div className="lg:col-span-5">
+            <ServiceMeta id="web" />
+            <h1 ref={head} className="mt-6 text-[clamp(2.5rem,4.4vw,4.6rem)] font-medium leading-[0.96] tracking-[-0.05em]">
+              <Headline parts={d.headline} />
+            </h1>
+            <p className="mt-6 max-w-md leading-relaxed text-muted">{d.intro}</p>
+            <ButtonLink to={enquire} className="mt-8">
               Plan your website
             </ButtonLink>
+          </div>
+          <div className="lg:col-span-7">
+            <FloatingDevices>
+              <ResponsiveDemo tone="light" compact />
+            </FloatingDevices>
+            <p className="mt-4 text-[0.8rem] text-subtle">Choose a device to see the layout adapt.</p>
           </div>
         </div>
       </header>
 
-      <div className="container-x">
-        <ResponsiveDemo />
-      </div>
+      {/* Website types: interactive layered gallery */}
+      <section aria-labelledby="site-types" className="border-y border-line bg-canvas-alt py-20 lg:py-28">
+        <div className="container-x">
+          <h2 id="site-types" className="mb-12 text-[clamp(1.9rem,3vw,2.8rem)] font-medium tracking-[-0.035em]">
+            Websites we build
+          </h2>
+          <SiteGallery />
+        </div>
+      </section>
+
+      <Benefits items={d.benefits} variant="icons" icons={[PenLine, Gauge, Sprout]} />
 
       {checklist && (
         <section aria-labelledby="includes" className="container-x py-20 lg:py-28">
           <div className="grid gap-10 lg:grid-cols-12">
-            <div className="lg:col-span-4">
+            <div className="lg:col-span-7">
               <h2 id="includes" className="text-[clamp(1.9rem,3vw,2.8rem)] font-medium leading-[1.05] tracking-[-0.035em]">
                 {checklist.title}
               </h2>
               <p className="mt-4 text-muted">{checklist.intro}</p>
             </div>
-            <ol className="grid gap-x-10 sm:grid-cols-2 lg:col-span-8">
-              {checklist.items.map((it, i) => (
-                <li key={it.title} data-reveal className="grid grid-cols-[2.5rem_1fr] border-t border-line py-6">
-                  <span className="font-mono text-[0.78rem] text-accent-ink">{pad(i + 1)}</span>
-                  <div>
-                    <h3 className="text-lg font-medium tracking-[-0.015em]">{it.title}</h3>
-                    <p className="mt-1.5 leading-relaxed text-muted">{it.body}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
+            <div className="lg:col-span-12">
+              <WebAudit items={checklist.items} />
+            </div>
           </div>
         </section>
       )}
+
+      <section aria-labelledby="web-capabilities" className="container-x py-20 lg:py-28">
+        <p className="eyebrow text-muted">Capabilities</p>
+        <h2 id="web-capabilities" className="mt-4 mb-12 max-w-2xl text-[clamp(1.8rem,3vw,2.8rem)] font-medium leading-[1.05] tracking-[-0.035em]">
+          Everything a website project needs
+        </h2>
+        <LayerStack groups={d.capabilities} />
+      </section>
 
       <section aria-labelledby="symptoms" className="border-y border-line bg-canvas-alt py-20 lg:py-28">
         <div className="container-x">
           <h2 id="symptoms" className="text-[clamp(1.9rem,3vw,2.8rem)] font-medium tracking-[-0.035em]">
             Symptoms we fix
           </h2>
-          <table className="mt-10 w-full border-collapse text-left">
-            <thead className="sr-only">
-              <tr>
-                <th scope="col">Symptom</th>
-                <th scope="col">What it means</th>
-              </tr>
-            </thead>
-            <tbody>
-              {d.problems.map((p) => (
-                <tr key={p.title} data-reveal className="border-t border-fg/80 align-top max-md:flex max-md:flex-col">
-                  <th scope="row" className="w-1/2 py-6 pr-8 text-xl font-medium tracking-[-0.02em] max-md:w-full max-md:pb-2">
-                    {p.title}
-                  </th>
-                  <td className="py-6 leading-relaxed text-muted max-md:pt-0">{p.body}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <p className="mt-4 max-w-xl text-muted">Pick a symptom to see what it looks like today — and what changes once it is fixed.</p>
+          <div className="mt-12">
+            <SymptomFixer items={d.problems} />
+          </div>
         </div>
       </section>
 
       <section aria-labelledby="process" className="container-x py-20 lg:py-28">
-        <h2 id="process" className="eyebrow text-muted">
+        <p className="eyebrow text-muted">Process</p>
+        <h2 id="process" className="mt-4 mb-14 text-[clamp(1.9rem,3vw,2.8rem)] font-medium tracking-[-0.035em]">
           How a website project runs
         </h2>
-        <ol className="relative mt-10 grid gap-8 md:grid-cols-4">
-          <span aria-hidden="true" className="absolute left-0 right-0 top-[0.45rem] hidden h-px bg-line-strong md:block" />
-          {d.process.map((p, i) => (
-            <li key={p.name} data-reveal className="relative">
-              <span aria-hidden="true" className="relative block h-[0.95rem] w-[0.95rem] rounded-full border-2 border-canvas bg-accent-ink ring-1 ring-accent-ink" />
-              <p className="eyebrow mt-5 text-subtle">Step {i + 1}</p>
-              <h3 className="mt-2 text-xl font-medium tracking-[-0.02em]">{p.name}</h3>
-              <p className="mt-2 leading-relaxed text-muted">{p.body}</p>
-            </li>
-          ))}
-        </ol>
+        <ProcessTrack steps={d.process} />
       </section>
 
       <section aria-label="Technology and questions" className="border-t border-line py-20 lg:py-28">
@@ -111,6 +108,8 @@ export default function WebDevelopment() {
           </div>
         </div>
       </section>
+
+      <HowWeStart id="web" />
 
       <section aria-label="Next step" className="container-x border-t border-line py-16">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">

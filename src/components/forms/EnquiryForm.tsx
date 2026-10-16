@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState, type ChangeEvent, type FormEvent } 
 import { useSearchParams } from 'react-router'
 import { CheckCircle2, ChevronDown, Loader2, X } from 'lucide-react'
 import { site } from '@/config/site'
+import { dbConfigured, saveEnquiry } from '@/lib/supabase'
 import { serviceTitles } from '@/content/services'
 import { budgetOptions, notSureService } from '@/content/enquiry'
 import { Button } from '@/components/ui/Button'
@@ -127,9 +128,19 @@ export function EnquiryForm() {
       source: 'zinfity-website',
     }
 
-    if (site.contact.endpoint) {
+    if (dbConfigured || site.contact.endpoint) {
       setStatus({ kind: 'submitting' })
-      const res = await postJson(site.contact.endpoint, payload)
+      const res = dbConfigured
+        ? await saveEnquiry({
+            name: payload.name,
+            email: payload.email,
+            company: payload.company || null,
+            service: payload.service,
+            budget: payload.budget,
+            message: payload.message,
+            context: payload.context ?? null,
+          })
+        : await postJson(site.contact.endpoint!, payload)
       if (res.ok) {
         setStatus({ kind: 'success' })
         setValues(empty)

@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router'
 import { Search, X } from 'lucide-react'
 import { Seo } from '@/components/Seo'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
+import { ButtonLink } from '@/components/ui/Button'
 import { PostMeta, PostThumb } from '@/components/blocks/PostCard'
 import { formatDate, postCategories, postPath, posts } from '@/content/blog'
 import { useReveal } from '@/hooks/useReveal'
@@ -52,15 +53,45 @@ export default function BlogPage() {
         <div className="flex flex-col gap-2 border-b border-line py-3 text-[0.82rem] text-muted sm:flex-row sm:justify-between">
           <span>Practical notes on building useful technology</span>
           <span>
-            {posts.length} {posts.length === 1 ? 'article' : 'articles'}
+            {posts.length ? `${posts.length} ${posts.length === 1 ? 'article' : 'articles'}` : 'First issue in preparation'}
             {posts[0] && <> · Latest {formatDate(posts[0].date)}</>}
           </span>
         </div>
       </header>
 
       {posts.length === 0 ? (
-        <section className="container-x py-24">
-          <p className="text-center text-2xl font-medium">No articles published yet.</p>
+        <section aria-labelledby="journal-soon" className="container-x py-20 lg:py-28">
+          <div className="mx-auto grid max-w-4xl gap-10 rounded-3xl border border-line bg-surface p-8 sm:p-12 md:grid-cols-[1fr_auto] md:items-center">
+            <div>
+              <p className="eyebrow text-accent-ink">Coming soon</p>
+              <h2 id="journal-soon" className="mt-4 text-[clamp(1.8rem,3vw,2.6rem)] font-medium leading-[1.05] tracking-[-0.035em]">
+                The first articles are being written.
+              </h2>
+              <p className="mt-4 max-w-lg leading-relaxed text-muted">
+                Practical notes on websites, apps, business software and automation will appear here. Until then, our service pages explain how we approach each kind of project.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <ButtonLink to="/services">Explore our services</ButtonLink>
+                <ButtonLink to="/contact" variant="ghost">
+                  Ask us a question
+                </ButtonLink>
+              </div>
+            </div>
+            <div aria-hidden="true" className="relative mx-auto h-40 w-32">
+              {[0, 1, 2].map((k) => (
+                <span
+                  key={k}
+                  className="absolute inset-0 rounded-xl border border-line-strong bg-canvas p-3 shadow-[0_20px_30px_-20px_rgb(58_42_29/0.5)]"
+                  style={{ transform: `rotate(${(k - 1) * 7}deg) translateY(${k * -4}px)` }}
+                >
+                  <span className="block h-1.5 w-2/3 rounded bg-[#171717]/60" />
+                  <span className="mt-2 block h-1 rounded bg-[#171717]/15" />
+                  <span className="mt-1 block h-1 w-4/5 rounded bg-[#171717]/15" />
+                  <span className="mt-3 block h-12 rounded bg-[linear-gradient(135deg,#f0d9bd,#c79b69)]" style={{ opacity: k === 2 ? 1 : 0.4 }} />
+                </span>
+              ))}
+            </div>
+          </div>
         </section>
       ) : (
         <>

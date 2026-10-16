@@ -5,7 +5,7 @@ import { Logo } from '@/components/ui/Logo'
 
 const shortcuts = [
   { to: '/services', label: 'Services' },
-  { to: '/work', label: 'Work' },
+  { to: '/solutions', label: 'Solutions' },
   { to: '/blog', label: 'Blog' },
   { to: '/contact', label: 'Contact' },
 ]

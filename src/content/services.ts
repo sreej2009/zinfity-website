@@ -11,6 +11,7 @@ export type ServiceVisualKey =
   | 'uiux'
   | 'commerce'
   | 'ai'
+  | 'microsoft'
 
 export type Service = {
   id: string
@@ -103,6 +104,16 @@ export const services: Service[] = [
       'Practical AI and workflow automation that removes repetitive work, connects your tools and puts your data to use where it matters.',
     deliverables: ['Workflow automation', 'AI assistants', 'Document processing', 'Data pipelines'],
     visual: 'ai',
+  },
+  {
+    id: 'microsoft',
+    slug: 'microsoft-solutions',
+    title: 'Microsoft Solutions',
+    short: 'Microsoft',
+    description:
+      'Dynamics 365, Business Central, the Power Platform and Azure — planned, configured and connected around how your business runs.',
+    deliverables: ['Dynamics 365', 'Business Central', 'Power Platform', 'Azure'],
+    visual: 'microsoft',
   },
 ]
 

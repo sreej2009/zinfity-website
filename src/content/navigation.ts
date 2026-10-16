@@ -4,7 +4,6 @@ export type NavItem = { to: string; label: string; hasServicesMenu?: boolean }
 export const primaryNav: NavItem[] = [
   { to: '/services', label: 'Services', hasServicesMenu: true },
   { to: '/solutions', label: 'Solutions' },
-  { to: '/work', label: 'Work' },
   { to: '/about', label: 'About' },
   { to: '/blog', label: 'Blog' },
   { to: '/careers', label: 'Careers' },

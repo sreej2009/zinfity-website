@@ -14,7 +14,7 @@ const STEP_VH = 50
 
 /**
  * Home: a compact discovery control. While scrolling, the section stays in place
- * and steps through services 01 → 08, then releases to the next section.
+ * and steps through every service in order, then releases to the next section.
  * Tabs remain clickable (they scroll to their step). With reduced motion it is a
  * normal, non-sticky section driven by clicks only.
  */

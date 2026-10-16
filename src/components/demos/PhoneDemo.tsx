@@ -6,7 +6,7 @@ const screens = ['Today', 'Job', 'Checklist', 'Sync'] as const
 const checklist = ['Isolate power supply', 'Inspect wiring', 'Replace filter', 'Take after photo']
 
 /** Mobile: a field-service app with real screen transitions and an offline mode. */
-export function PhoneDemo() {
+export function PhoneDemo({ tone = 'dark' }: { tone?: 'dark' | 'light' }) {
   const [screen, setScreen] = useState(0)
   const [offline, setOffline] = useState(false)
   const [done, setDone] = useState<boolean[]>([true, false, false, false])
@@ -18,6 +18,7 @@ export function PhoneDemo() {
 
   return (
     <DemoFrame
+      tone={tone}
       title="A field app that works offline"
       controls={
         <Seg on={offline} onClick={() => setOffline((o) => !o)} label="Toggle offline mode">
@@ -27,7 +28,7 @@ export function PhoneDemo() {
     >
       <div className="flex flex-col items-center gap-6 px-4 py-8">
         {/* Phone */}
-        <div className="relative w-[16.5rem] rounded-[2.4rem] border border-line-strong bg-[#0c0d10] p-2.5 shadow-[0_40px_60px_-20px_rgb(0_0_0/0.6)]">
+        <div className="relative w-[16.5rem] rounded-[2.4rem] border border-line-strong bg-[#0c0d10] p-2.5 shadow-[0_40px_60px_-20px_rgb(0_0_0/0.6)] after:absolute after:-bottom-6 after:left-1/2 after:-z-10 after:h-6 after:w-[85%] after:-translate-x-1/2 after:rounded-[50%] after:bg-[#3a2a1d]/25 after:blur-lg after:content-['']">
           <div className="relative h-[30rem] overflow-hidden rounded-[1.9rem] bg-[#f7f5f0] text-[#171717]">
             <div className="flex items-center justify-between px-5 pb-2 pt-3 text-[0.62rem] font-medium">
               <span>9:41</span>

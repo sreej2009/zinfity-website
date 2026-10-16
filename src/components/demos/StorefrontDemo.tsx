@@ -16,6 +16,13 @@ export function StorefrontDemo() {
   const [size, setSize] = useState(0)
   const [bag, setBag] = useState(0)
   const [stage, setStage] = useState(1)
+  // Subtle 3D: the bottle turns slightly toward the pointer (fine pointers, motion allowed)
+  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+  const onMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== 'mouse' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const r = e.currentTarget.getBoundingClientRect()
+    setTilt({ x: (e.clientX - r.left) / r.width - 0.5, y: (e.clientY - r.top) / r.height - 0.5 })
+  }
 
   const add = () => {
     setBag((b) => b + 1)
@@ -25,13 +32,27 @@ export function StorefrontDemo() {
   return (
     <DemoFrame title="A product page that sells and stays simple to run" caption="Fictional product for demonstration.">
       <div className="grid gap-8 px-5 py-8 lg:grid-cols-12 lg:px-8">
-        <div className="relative grid aspect-square place-items-center overflow-hidden rounded-2xl bg-[radial-gradient(70%_70%_at_50%_45%,#2a2018,#0f1116)] lg:col-span-6" aria-hidden="true">
-          <div className="relative h-[70%] w-[28%]">
+        <div
+          className="relative grid aspect-square place-items-center overflow-hidden rounded-2xl bg-[radial-gradient(70%_70%_at_50%_45%,#2a2018,#0f1116)] lg:col-span-6"
+          aria-hidden="true"
+          onPointerMove={onMove}
+          onPointerLeave={() => setTilt({ x: 0, y: 0 })}
+          style={{ perspective: '700px' }}
+        >
+          <div
+            className="relative h-[70%] w-[28%] transition-transform duration-500 ease-out"
+            style={{ transform: `rotateY(${tilt.x * 22}deg) rotateX(${-tilt.y * 8}deg)`, transformStyle: 'preserve-3d' }}
+          >
             <div className="absolute inset-x-[30%] top-0 h-[10%] rounded-[0.3em] bg-[linear-gradient(90deg,#2a2c31,#9aa0a8,#2a2c31)]" />
             <div
               className="absolute inset-x-0 bottom-0 top-[9%] rounded-[45%_45%_18%_18%/30%_30%_12%_12%] shadow-[0_3em_4em_rgb(0_0_0/0.6)] transition-[background] duration-700"
               style={{ background: finishes[finish].fill, transform: size ? 'scale(1.08, 1.12)' : 'none', transformOrigin: 'bottom', transition: 'transform .6s, background .7s' }}
-            />
+            >
+              <span
+                className="absolute inset-0 rounded-[inherit] transition-[background-position] duration-500 ease-out"
+                style={{ backgroundImage: 'linear-gradient(100deg,transparent 35%,rgb(255 255 255 / 0.28) 48%,transparent 60%)', backgroundSize: '220% 100%', backgroundPosition: `${50 - tilt.x * 60}% 0` }}
+              />
+            </div>
           </div>
           <span className="absolute bottom-[8%] left-1/2 h-[3%] w-[34%] -translate-x-1/2 rounded-[50%] bg-black/70 blur-md" />
         </div>

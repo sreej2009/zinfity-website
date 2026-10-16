@@ -117,3 +117,35 @@ export const disciplines = [
   { id: 'process', label: 'Business processes', note: 'How work flows' },
   { id: 'growth', label: 'Growth', note: 'Reach that compounds' },
 ]
+
+/** What each discipline contributes (shown on /solutions). */
+export const disciplineDetails: Record<string, { body: string; tags: string[] }> = {
+  design: { body: 'Research, flows and interfaces that make each journey obvious to the people using it.', tags: ['UX research', 'Interfaces', 'Design systems'] },
+  engineering: { body: 'Platforms, integrations and infrastructure built to stay reliable as the business changes.', tags: ['Platforms', 'APIs', 'Cloud'] },
+  process: { body: 'How work actually moves between people and systems — mapped first, then improved or automated.', tags: ['Process mapping', 'ERP & CRM', 'Automation'] },
+  growth: { body: 'Search, campaigns and measurement connected to the product, so reach builds over time.', tags: ['SEO', 'Campaigns', 'Analytics'] },
+}
+
+/** Typical friction at each layer, and where we would usually start. */
+export const layerFriction: Record<string, { signs: string[]; start: string }> = {
+  interfaces: {
+    signs: ['Customers struggle to find information or finish tasks', 'Each website, app or portal looks and behaves differently', 'Most requests still arrive by phone because online journeys break'],
+    start: 'Review the key journeys, then redesign the screens people use most around one shared design system.',
+  },
+  applications: {
+    signs: ['Teams work around the system with spreadsheets', 'Business rules live in people’s heads, not in software', 'Small changes to the platform are slow and risky'],
+    start: 'Map how the work actually flows, then configure or build the platform around those rules.',
+  },
+  integration: {
+    signs: ['The same data is typed into several tools', 'Approvals and hand-offs happen over email and chat', 'Systems regularly fall out of step with each other'],
+    start: 'Connect the systems that matter through APIs and workflows, and automate the repetitive hand-offs.',
+  },
+  data: {
+    signs: ['Reports take days to compile by hand', 'Different teams quote different numbers', 'Nobody is sure which record is the correct one'],
+    start: 'Agree one source for each record, clean what already exists and build reporting on top of it.',
+  },
+  operations: {
+    signs: ['Orders, invoices or support requests get delayed', 'Managers lack a clear view of daily work', 'Growth means hiring just to keep up with admin'],
+    start: 'Start from the operational bottleneck and trace it back through the layers that feed it.',
+  },
+}

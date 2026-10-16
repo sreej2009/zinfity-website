@@ -78,7 +78,10 @@ export function OurTechnologies() {
   // Load the scene when approaching; render/animate only while on screen.
   useEffect(() => {
     const el = stage.current!
-    const nearIO = new IntersectionObserver(([e]) => e.isIntersecting && setNear(true), { rootMargin: '700px 0px' })
+    const nearIO = new IntersectionObserver(([e]) => e.isIntersecting && setNear(true), { rootMargin: '1400px 0px' })
+    // Warm up the 3D scene while the browser is idle so scrolling never waits for it.
+    const ric = (window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }).requestIdleCallback
+    const idle = ric ? ric(() => setNear(true), { timeout: 4000 }) : window.setTimeout(() => setNear(true), 2500)
     const visIO = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), { rootMargin: '80px 0px' })
     nearIO.observe(el)
     visIO.observe(el)
@@ -87,6 +90,9 @@ export function OurTechnologies() {
     })
     ro.observe(el)
     return () => {
+      const cic = (window as Window & { cancelIdleCallback?: (id: number) => void }).cancelIdleCallback
+      if (cic) cic(idle)
+      else window.clearTimeout(idle)
       nearIO.disconnect()
       visIO.disconnect()
       ro.disconnect()
@@ -130,7 +136,7 @@ export function OurTechnologies() {
         const bob = Math.sin(t * 0.9 + i * 1.7) * 5
         const x = ex * Math.cos(o.rot) - ey * Math.sin(o.rot) + state.pointer.x * 22 * (0.4 + depth)
         const y = ex * Math.sin(o.rot) + ey * Math.cos(o.rot) + o.dy + bob + state.pointer.y * -12 * (0.4 + depth)
-        let opacity = 0.5 + depth * 0.5
+        let opacity = 0.42 + depth * 0.58
         let zIndex = z < 0 ? 5 : 20 // behind / in front of the WebGL rings
         if (hovered.current === i) {
           s *= 1.14
@@ -140,7 +146,6 @@ export function OurTechnologies() {
         el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) scale(${(s * (0.8 + depth * 0.14)).toFixed(3)})`
         el.style.opacity = opacity.toFixed(3)
         el.style.zIndex = String(zIndex)
-        el.style.filter = depth < 0.35 && hovered.current !== i ? `blur(${((0.35 - depth) * 3).toFixed(2)}px)` : 'none'
       })
     }
 
@@ -200,12 +205,11 @@ export function OurTechnologies() {
       gsap.matchMedia().add(MOTION, () => {
         gsap.fromTo(
           stage.current,
-          { autoAlpha: 0, scale: 0.94, y: 40 },
-          { autoAlpha: 1, scale: 1, y: 0, ease: 'none', scrollTrigger: { trigger: stage.current, start: 'top 95%', end: 'top 45%', scrub: 0.6 } },
+          { autoAlpha: 0, y: 40 },
+          { autoAlpha: 1, y: 0, ease: 'none', scrollTrigger: { trigger: stage.current, start: 'top 95%', end: 'top 45%', scrub: 0.6 } },
         )
         gsap.to(stage.current, {
           autoAlpha: 0.35,
-          scale: 0.97,
           ease: 'none',
           scrollTrigger: { trigger: stage.current, start: 'bottom 15%', end: 'bottom -15%', scrub: 0.6 },
         })
@@ -277,7 +281,7 @@ export function OurTechnologies() {
         className="relative mx-auto mt-6 h-[22rem] w-full max-w-[96rem] sm:h-[28rem] lg:mt-4 lg:h-[38rem]"
       >
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[70%] w-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(199_155_105/0.16),transparent)]" />
-        <div className="pointer-events-none absolute bottom-[10%] left-1/2 h-8 w-[min(36%,22rem)] -translate-x-1/2 rounded-[50%] bg-[#3a2a1d]/15 blur-xl" />
+        <div className="pointer-events-none absolute bottom-[10%] left-1/2 h-8 w-[min(36%,22rem)] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(closest-side,rgb(58_42_29/0.18),transparent)]" />
 
         {/* Sculpture: a centred square so the rings keep their proportions */}
         <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 aspect-square h-[82%] -translate-x-1/2 -translate-y-1/2 lg:h-[92%]">
@@ -308,7 +312,7 @@ export function OurTechnologies() {
             >
               <div
                 data-card
-                className="flex w-24 flex-col items-center gap-2 rounded-2xl border border-[#ded9d0]/90 bg-white/55 px-3 pb-3 pt-4 shadow-[0_18px_40px_-18px_rgb(58_42_29/0.35),inset_0_1px_0_rgb(255_255_255/0.9)] backdrop-blur-md transition-[box-shadow,border-color] duration-500 hover:border-accent/70 hover:shadow-[0_26px_50px_-18px_rgb(140_94_52/0.4),inset_0_1px_0_rgb(255_255_255/0.9)] sm:w-28 lg:w-[8.25rem] lg:pt-5"
+                className="flex w-24 flex-col items-center gap-2 rounded-2xl border border-[#ded9d0]/90 bg-[#fbfaf7]/95 px-3 pb-3 pt-4 shadow-[0_18px_40px_-18px_rgb(58_42_29/0.35),inset_0_1px_0_rgb(255_255_255/0.9)] transition-[box-shadow,border-color] duration-500 hover:border-accent/70 hover:shadow-[0_26px_50px_-18px_rgb(140_94_52/0.4),inset_0_1px_0_rgb(255_255_255/0.9)] sm:w-28 lg:w-[8.25rem] lg:pt-5"
               >
                 <img src={t.logo} alt="" draggable={false} className="h-8 w-8 object-contain lg:h-10 lg:w-10" />
                 <span className="whitespace-nowrap text-center text-[0.72rem] font-medium tracking-[-0.01em] text-fg lg:text-[0.8rem]">{t.name}</span>
@@ -353,7 +357,7 @@ function TechChip({ tech, index }: { tech: Technology; index?: number }) {
       className={`${index !== undefined ? 'tech-tile' : ''} flex shrink-0 items-center gap-3 rounded-xl border border-line bg-white/55 px-4 py-3 transition-[border-color,box-shadow,transform] duration-500 hover:-translate-y-0.5 hover:border-accent/60 hover:shadow-[0_12px_28px_-16px_rgb(140_94_52/0.35)]`}
       style={index !== undefined ? { ['--i' as string]: index } : undefined}
     >
-      <img src={tech.logo} alt="" loading="lazy" decoding="async" draggable={false} className="h-6 w-6 shrink-0 object-contain" />
+      <img src={tech.logo} alt="" decoding="async" draggable={false} className="h-6 w-6 shrink-0 object-contain" />
       <span className="whitespace-nowrap text-[0.9rem] leading-tight text-fg">{tech.name}</span>
     </li>
   )

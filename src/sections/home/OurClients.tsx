@@ -9,7 +9,7 @@ function ClientLogo({ c }: { c: Client }) {
       loading="lazy"
       decoding="async"
       draggable={false}
-      className="h-10 w-auto max-w-[10rem] object-contain opacity-60 grayscale transition-[filter,opacity,transform] duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.04] group-hover:opacity-100 group-hover:grayscale-0 lg:h-11"
+      className={`w-auto object-contain opacity-70 mix-blend-multiply grayscale transition-[filter,opacity,transform] duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.04] group-hover:opacity-100 group-hover:grayscale-0 ${c.square ? 'h-24 lg:h-32' : 'h-12 max-w-[12rem] lg:h-16 lg:max-w-[14rem]'}`}
     />
   )
   return c.url ? (
@@ -61,12 +61,12 @@ export function OurClients() {
           <div className="container-x">
             <ul
               aria-label="Clients"
-              className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3 lg:grid-cols-6"
+              className={`grid gap-px overflow-hidden rounded-2xl border border-line bg-line ${clients.length <= 3 ? 'sm:grid-cols-3' : 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-6'}`}
             >
               {clients.map((c) => (
                 <li
                   key={c.name}
-                  className="group relative flex h-32 items-center justify-center bg-canvas px-6 transition-colors duration-700 hover:bg-surface sm:h-36 lg:h-40"
+                  className="group relative flex h-32 items-center justify-center bg-canvas px-8 transition-colors duration-700 hover:bg-surface sm:h-40 lg:h-48"
                 >
                   {/* Warm wash and corner accent on hover */}
                   <span

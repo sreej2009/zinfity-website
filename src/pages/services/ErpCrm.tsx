@@ -1,6 +1,9 @@
 import { ButtonLink } from '@/components/ui/Button'
 import { ErpDemo } from '@/components/demos/ErpDemo'
-import { Faq, Headline, ProjectTeaser, RelatedServices, ServiceMeta, ServiceSeo, TechList, useServicePage } from '@/components/service/kit'
+import { ModuleNetwork, PhaseTrack } from '@/components/service/visuals/erp'
+import { ErpBeforeAfter } from '@/components/service/visuals/upgrades'
+import { RolloutJourney } from '@/components/service/visuals/erp-extra'
+import { Faq, Headline, HowWeStart, ProjectTeaser, RelatedServices, ServiceMeta, ServiceSeo, TechList, useServicePage } from '@/components/service/kit'
 
 /** ERP & CRM: operational — a live order simulation, module map and before/after view. */
 export default function ErpCrm() {
@@ -35,29 +38,8 @@ export default function ErpCrm() {
         <h2 id="ba" className="text-[clamp(1.9rem,3vw,2.8rem)] font-medium tracking-[-0.035em]">
           Before and after a connected system
         </h2>
-        <div className="mt-10 grid overflow-hidden rounded-2xl border border-line md:grid-cols-2">
-          <div className="bg-canvas-alt p-8">
-            <p className="eyebrow text-subtle">Before</p>
-            <ul className="mt-6 space-y-6">
-              {d.problems.map((p) => (
-                <li key={p.title} data-reveal>
-                  <p className="font-medium">{p.title}</p>
-                  <p className="mt-1 text-muted">{p.body}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="bg-surface p-8">
-            <p className="eyebrow text-accent-ink">After</p>
-            <ul className="mt-6 space-y-6">
-              {d.benefits.map((b) => (
-                <li key={b.title} data-reveal>
-                  <p className="font-medium">{b.title}</p>
-                  <p className="mt-1 text-muted">{b.body}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="mt-10">
+          <ErpBeforeAfter problems={d.problems} benefits={d.benefits} />
         </div>
       </section>
 
@@ -67,58 +49,42 @@ export default function ErpCrm() {
             <h2 id="modules" className="eyebrow text-muted">
               {mod.title}
             </h2>
-            <table className="mt-8 w-full border-collapse text-left">
-              <thead className="sr-only">
-                <tr>
-                  <th scope="col">Module</th>
-                  <th scope="col">What it does</th>
-                </tr>
-              </thead>
-              <tbody>
-                {mod.modules.map((m) => (
-                  <tr key={m.name} className="border-b border-line">
-                    <th scope="row" className="w-1/3 py-5 pr-6 text-lg font-medium">
-                      {m.name}
-                    </th>
-                    <td className="py-5 text-muted">{m.body}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <p className="mt-8 text-[0.94rem] text-muted">
-              <span className="eyebrow mr-3 text-accent-ink">Integrates with</span>
-              {mod.integrations.join(' · ')}
-            </p>
+            <p className="mt-4 max-w-xl text-[clamp(1.6rem,2.4vw,2.2rem)] font-medium leading-[1.1] tracking-[-0.03em]">Follow one order as it moves through the business.</p>
+            <div className="mt-12">
+              <ModuleNetwork modules={mod.modules} integrations={mod.integrations} />
+            </div>
           </div>
         </section>
       )}
 
+      <section aria-labelledby="erp-capabilities" className="container-x py-20 lg:py-28">
+        <p className="eyebrow text-muted">Capabilities</p>
+        <h2 id="erp-capabilities" className="mt-4 mb-14 text-[clamp(1.8rem,3vw,2.8rem)] font-medium tracking-[-0.035em]">
+          From fit analysis to adoption
+        </h2>
+        <PhaseTrack groups={d.capabilities} />
+      </section>
+
       <section aria-label="Rollout" className="py-20 lg:py-28">
-        <div className="container-x grid gap-14 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <h2 className="text-[clamp(1.8rem,2.6vw,2.4rem)] font-medium tracking-[-0.03em]">A careful rollout</h2>
-            <ol className="mt-8 space-y-5">
-              {d.process.map((p, i) => (
-                <li key={p.name} data-reveal className="grid grid-cols-[2rem_1fr] gap-2">
-                  <span className="font-mono text-[0.78rem] text-accent-ink">{i + 1}.</span>
-                  <div>
-                    <p className="font-medium">{p.name}</p>
-                    <p className="text-[0.94rem] text-muted">{p.body}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </div>
-          <div className="lg:col-span-4">
-            <h2 className="eyebrow text-muted">Platforms & tools</h2>
-            <TechList groups={d.tech} className="mt-6" />
-          </div>
-          <div className="lg:col-span-4">
-            <h2 className="eyebrow text-muted">Questions</h2>
-            <Faq items={d.faq} className="mt-6" />
+        <div className="container-x">
+          <p className="eyebrow text-muted">Rollout</p>
+          <h2 className="mt-4 mb-4 text-[clamp(1.9rem,3vw,2.8rem)] font-medium tracking-[-0.035em]">A careful rollout</h2>
+          <p className="mb-12 max-w-xl text-muted">Four stages from first analysis to go-live — each one tested before the next begins.</p>
+          <RolloutJourney steps={d.process} />
+          <div className="mt-20 grid gap-14 lg:grid-cols-12">
+            <div className="lg:col-span-5">
+              <h2 className="eyebrow text-muted">Platforms & tools</h2>
+              <TechList groups={d.tech} className="mt-6" />
+            </div>
+            <div className="lg:col-span-6 lg:col-start-7">
+              <h2 className="eyebrow text-muted">Questions</h2>
+              <Faq items={d.faq} className="mt-6" />
+            </div>
           </div>
         </div>
       </section>
+
+      <HowWeStart id="erp" tone="alt" />
 
       <section aria-label="Next step" className="container-x grid gap-10 border-t border-line py-16 lg:grid-cols-2 lg:items-center">
         <ProjectTeaser id={d.relatedProject} />

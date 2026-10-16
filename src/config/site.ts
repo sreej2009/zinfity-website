@@ -3,9 +3,9 @@ import { withBase } from '@/lib/base'
 /**
  * Site-wide configuration.
  *
- * Contact details and social profiles are read from environment variables
- * (see .env.example). Anything left empty is simply not rendered, so the
- * site never shows unverified details.
+ * Contact details and social profiles default to Zinfity's confirmed details
+ * and can be overridden with environment variables (see .env.example).
+ * Social profiles without a value are simply not rendered.
  */
 const env = import.meta.env
 
@@ -19,9 +19,11 @@ export const site = {
 
   contact: {
     endpoint: clean(env.VITE_CONTACT_ENDPOINT),
-    email: clean(env.VITE_CONTACT_EMAIL),
-    phone: clean(env.VITE_CONTACT_PHONE),
-    location: clean(env.VITE_CONTACT_LOCATION),
+    email: clean(env.VITE_CONTACT_EMAIL) ?? 'infozinfity@gmail.com',
+    phone: clean(env.VITE_CONTACT_PHONE) ?? '+91 63824 24956',
+    location: clean(env.VITE_CONTACT_LOCATION) ?? '7th Cross, Periyar Nagar, Nehru Nagar, Kalapatti Road, Sitra, Coimbatore – 641014',
+    /** WhatsApp number in international format, digits only. */
+    whatsapp: clean(env.VITE_CONTACT_WHATSAPP) ?? '916382424956',
   },
 
   careers: {
@@ -31,7 +33,8 @@ export const site = {
 
   socials: [
     { label: 'LinkedIn', href: clean(env.VITE_SOCIAL_LINKEDIN) },
-    { label: 'Instagram', href: clean(env.VITE_SOCIAL_INSTAGRAM) },
+    { label: 'Instagram', href: clean(env.VITE_SOCIAL_INSTAGRAM) ?? 'https://www.instagram.com/zinfity.tech/' },
+    { label: 'Facebook', href: clean(env.VITE_SOCIAL_FACEBOOK) ?? 'https://www.facebook.com/share/1JJczg7yZv/' },
     { label: 'X', href: clean(env.VITE_SOCIAL_X) },
     { label: 'GitHub', href: clean(env.VITE_SOCIAL_GITHUB) },
   ].filter((s): s is { label: string; href: string } => Boolean(s.href)),

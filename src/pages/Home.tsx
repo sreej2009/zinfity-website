@@ -7,10 +7,11 @@ import { FeaturedProject } from '@/sections/home/FeaturedProject'
 import { OurClients } from '@/sections/home/OurClients'
 import { Philosophy } from '@/sections/home/Philosophy'
 import { HomeClosing } from '@/sections/home/HomeClosing'
+import { HomeFaq } from '@/sections/home/HomeFaq'
 
 /**
  * Home is a brand impression, not a summary of the site:
- * 3D hero → service discovery → one curated project → one philosophy line → closing.
+ * 3D hero → service discovery → one curated project → one philosophy line → FAQ → closing.
  * Full content lives on its owning routes (see docs/content-ownership.md).
  */
 export default function Home() {
@@ -26,6 +27,7 @@ export default function Home() {
       <FeaturedProject />
       <OurClients />
       <Philosophy />
+      <HomeFaq />
       <HomeClosing />
     </>
   )

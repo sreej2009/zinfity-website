@@ -19,15 +19,12 @@ export type Client = {
   logo: string
   /** Optional link to the client's website. */
   url?: string
+  /** Square / stacked logos are shown taller so they read at the same visual weight. */
+  square?: boolean
 }
 
-// TEMPORARY PLACEHOLDERS — replace with real client logos before launch.
-// (Delete these six lines and the files /public/clients/placeholder-*.svg.)
 export const clients: Client[] = [
-  { name: 'Placeholder client logo 1', logo: withBase('/clients/placeholder-1.svg') },
-  { name: 'Placeholder client logo 2', logo: withBase('/clients/placeholder-2.svg') },
-  { name: 'Placeholder client logo 3', logo: withBase('/clients/placeholder-3.svg') },
-  { name: 'Placeholder client logo 4', logo: withBase('/clients/placeholder-4.svg') },
-  { name: 'Placeholder client logo 5', logo: withBase('/clients/placeholder-5.svg') },
-  { name: 'Placeholder client logo 6', logo: withBase('/clients/placeholder-6.svg') },
+  { name: 'Hitswork', logo: withBase('/clients/hitswork.webp') },
+  { name: 'Sticko', logo: withBase('/clients/sticko.webp'), square: true },
+  { name: 'Brandotics', logo: withBase('/clients/brandotics.webp') },
 ]

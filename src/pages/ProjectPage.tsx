@@ -80,7 +80,7 @@ export default function ProjectPage() {
       <Seo title={`${project.title}${concept ? ' (concept study)' : ''}`} description={project.description} />
 
       <header className="container-x pb-14 pt-[calc(var(--header-h)+3rem)] lg:pb-20 lg:pt-36">
-        <Breadcrumbs items={[{ label: 'Work', to: '/work' }, { label: project.title }]} />
+        <Breadcrumbs items={[{ label: project.title }]} />
         <div className="flex flex-wrap items-center gap-3">
           {concept && <span className="badge-sample">Concept study</span>}
           <span className="eyebrow text-muted">{project.category}</span>

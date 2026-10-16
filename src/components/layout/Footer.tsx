@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import { ArrowUp, ArrowUpRight } from 'lucide-react'
+import { SocialIcon } from '@/components/ui/SocialIcon'
 import { site } from '@/config/site'
 import { services, servicePath } from '@/content/services'
 import { Logo } from '@/components/ui/Logo'
@@ -8,7 +9,6 @@ import { useScroll } from '@/lib/scroll'
 const company = [
   { to: '/about', label: 'About' },
   { to: '/solutions', label: 'Solutions' },
-  { to: '/work', label: 'Work' },
   { to: '/blog', label: 'Blog' },
   { to: '/careers', label: 'Careers' },
   { to: '/contact', label: 'Contact' },
@@ -40,7 +40,12 @@ export function Footer() {
                     {site.contact.phone}
                   </a>
                 )}
-                {site.contact.location && <p>{site.contact.location}</p>}
+                {site.contact.location && (
+                  <p className="pt-2 leading-relaxed">
+                    <span className="block font-medium text-fg">{site.name}</span>
+                    {site.contact.location}
+                  </p>
+                )}
               </address>
             )}
           </div>
@@ -82,7 +87,8 @@ export function Footer() {
               <ul className="space-y-3">
                 {site.socials.map((s) => (
                   <li key={s.label}>
-                    <a href={s.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-fg/85 hover:text-fg">
+                    <a href={s.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-fg/85 hover:text-fg">
+                      <SocialIcon label={s.label} className="text-accent" />
                       <span className="link-draw">{s.label}</span>
                       <ArrowUpRight size={14} aria-hidden="true" />
                       <span className="sr-only">(opens in a new tab)</span>
@@ -101,7 +107,7 @@ export function Footer() {
           <button
             type="button"
             onClick={() => scrollTo('top')}
-            className="group inline-flex items-center gap-3 self-start text-muted transition-colors hover:text-fg sm:self-auto"
+            className="group inline-flex items-center gap-3 self-start text-muted transition-colors hover:text-fg sm:mr-20 sm:self-auto"
           >
             Back to top
             <span className="grid h-9 w-9 place-items-center rounded-full border border-line-strong transition-colors group-hover:border-fg">

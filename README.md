@@ -37,7 +37,7 @@ Empty values are never rendered, so no unverified details ship.
 | `/` | Home |
 | `/services`, `/services/:slug` | Services overview + 8 detail pages |
 | `/solutions` | Solutions |
-| `/work`, `/work/:slug` | Portfolio (category filters) + case-study pages |
+| `/work/:slug` | Individual project pages (linked from Home and service pages; there is no portfolio index) |
 | `/about` | About (`/about#approach` jumps to the process) |
 | `/blog`, `/blog/:slug` | Blog (featured, search, categories) + articles |
 | `/careers`, `/careers/:slug` | Careers + job pages |

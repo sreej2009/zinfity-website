@@ -36,6 +36,35 @@ function Chapter({ numeral, title, id, children, tone = 'light' }: { numeral: st
   )
 }
 
+/** Hero composition: the Z mark held by three orbiting commitments. */
+function AboutHeroMark() {
+  const items = ['For people', 'For teams', 'For business']
+  return (
+    <div aria-hidden="true" className="relative mx-auto aspect-square w-full max-w-[19rem] lg:col-span-4 lg:max-w-[22rem]">
+      <div className="absolute inset-[6%] rounded-full border border-accent/30" />
+      <div className="absolute inset-[22%] rounded-full border border-dashed border-accent/40 motion-safe:animate-[spin_40s_linear_infinite]" />
+      <div className="absolute inset-[36%] grid place-items-center rounded-full bg-[radial-gradient(circle_at_40%_35%,#fbf3e8,#ead6bb)] shadow-[0_30px_50px_-24px_rgb(58_42_29/0.45)]">
+        <div className="w-[56%]">
+          <Logo variant="mark" alt="" className="block h-auto w-full drop-shadow-[0_10px_10px_rgb(58_42_29/0.25)]" />
+        </div>
+      </div>
+      {items.map((t, i) => {
+        const a = ((-90 + i * 120) * Math.PI) / 180
+        return (
+          <span
+            key={t}
+            className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border border-white/80 bg-white/70 px-3.5 py-1.5 text-[0.8rem] shadow-[0_14px_28px_-16px_rgb(58_42_29/0.45)] backdrop-blur-sm motion-safe:animate-[float_6s_ease-in-out_infinite]"
+            style={{ left: `${50 + Math.cos(a) * 44}%`, top: `${50 + Math.sin(a) * 44}%`, animationDelay: `${i * -2}s` }}
+          >
+            <span className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-accent align-middle" />
+            {t}
+          </span>
+        )
+      })}
+    </div>
+  )
+}
+
 export default function AboutPage() {
   const root = useRef<HTMLDivElement>(null)
   const head = useRef<HTMLHeadingElement>(null)
@@ -50,12 +79,23 @@ export default function AboutPage() {
       />
 
       {/* Manifesto */}
-      <header className="container-x pb-20 pt-[calc(var(--header-h)+3rem)] lg:pb-28 lg:pt-40">
-        <Breadcrumbs items={[{ label: 'About' }]} />
-        <h1 ref={head} className="text-[clamp(2.4rem,6.4vw,6.8rem)] font-medium leading-[0.98] tracking-[-0.05em]">
-          We are a design and engineering company. We build technology that <span className="serif-accent metal-text">works</span> — for people, for
-          teams, for business.
-        </h1>
+      <header className="relative overflow-hidden pb-20 pt-[calc(var(--header-h)+3rem)] lg:pb-28 lg:pt-36">
+        <div aria-hidden="true" className="pointer-events-none absolute right-[-12%] top-[-10%] -z-10 h-[42rem] w-[42rem] rounded-full bg-[radial-gradient(closest-side,rgb(199_155_105/0.16),transparent)]" />
+        <div className="container-x">
+          <Breadcrumbs items={[{ label: 'About' }]} />
+          <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
+            <div className="lg:col-span-8">
+              <p className="eyebrow text-accent-ink">About Zinfity Technologies</p>
+              <h1 ref={head} className="mt-6 max-w-[17ch] text-balance text-[clamp(2.3rem,4.6vw,4.6rem)] font-medium leading-[1.02] tracking-[-0.045em]">
+                We are a design and engineering company.
+              </h1>
+              <p className="mt-6 max-w-[34ch] text-balance text-[clamp(1.35rem,2.1vw,2rem)] leading-[1.25] tracking-[-0.02em] text-muted">
+                We build technology that <span className="serif-accent metal-text text-[1.15em]">works</span> — for people, for teams, for business.
+              </p>
+            </div>
+            <AboutHeroMark />
+          </div>
+        </div>
       </header>
 
       <Chapter numeral="I" title="Position" id="position">

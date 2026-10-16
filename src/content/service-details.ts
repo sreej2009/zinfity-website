@@ -472,4 +472,62 @@ export const serviceDetails: Record<string, ServiceDetail> = {
     related: ['software', 'erp', 'marketing'],
     ctaLine: 'Have a process that should run itself?',
   },
+  microsoft: {
+    id: 'microsoft',
+    headline: ['Microsoft solutions that', 'move', 'your business forward.'],
+    intro:
+      'We help businesses plan, configure and connect Microsoft business applications — Dynamics 365, Business Central, Power Apps, Power BI, Power Automate and Azure — so each one fits the way your teams actually work.',
+    heroLayout: 'split',
+    problems: [
+      { title: 'Licences without a plan', body: 'Microsoft tools are paid for but only partly used, because nobody has mapped them to real processes.' },
+      { title: 'Data in separate places', body: 'Sales, finance and operations each keep their own records, so reports are assembled by hand.' },
+      { title: 'Manual steps between systems', body: 'Approvals, re-typing and spreadsheet exports fill the gaps between applications.' },
+    ],
+    benefits: [
+      { title: 'Connected business processes', body: 'Sales, finance, operations and reporting working from shared, consistent data.' },
+      { title: 'Decisions from live reports', body: 'Dashboards built on connected sources instead of weekly manual compilation.' },
+      { title: 'Less manual work', body: 'Approvals, notifications and routine updates handled by automated flows.' },
+    ],
+    capabilities: [
+      { group: 'Business applications', items: ['Dynamics 365 configuration', 'Business Central implementation', 'Data migration'] },
+      { group: 'Power Platform', items: ['Power Apps (canvas & model-driven)', 'Power Automate flows', 'Power BI reports & dashboards'] },
+      { group: 'Cloud & integration', items: ['Azure application hosting', 'APIs & system integration', 'Identity & access set-up'] },
+    ],
+    signature: {
+      kind: 'modules',
+      title: 'The Microsoft products we work with',
+      intro: 'Each product has a distinct job. The value comes from connecting them carefully.',
+      modules: [
+        { name: 'Dynamics 365', body: 'Microsoft’s family of business applications for sales, customer service and wider operations.' },
+        { name: 'Business Central', body: 'Dynamics 365 Business Central: business management for small and mid-sized organisations.' },
+        { name: 'Power Apps', body: 'Low-code custom business apps for web and mobile, connected to your data.' },
+        { name: 'Power BI', body: 'Interactive reports and dashboards built from connected business data.' },
+        { name: 'Power Automate', body: 'Automated workflows and approvals across Microsoft and third-party applications.' },
+        { name: 'Azure', body: 'Microsoft’s cloud platform for hosting applications, data and integrations.' },
+      ],
+      integrations: ['Microsoft 365', 'SharePoint', 'Microsoft Teams', 'Dataverse', 'Microsoft Entra ID', 'Third-party APIs'],
+    },
+    tech: [
+      { label: 'Business apps', items: ['Dynamics 365', 'Business Central', 'Dataverse'] },
+      { label: 'Power Platform', items: ['Power Apps', 'Power Automate', 'Power BI', 'Copilot Studio'] },
+      { label: 'Cloud', items: ['Azure App Service', 'Azure Functions', 'Azure SQL Database', 'Microsoft Entra ID'] },
+    ],
+    process: [
+      { name: 'Discovery', body: 'Understand your processes, systems, licences and goals.' },
+      { name: 'Requirements', body: 'Agree what each team needs, including reports, roles and integrations.' },
+      { name: 'Solution planning', body: 'Choose the right products and decide what to configure, extend or build.' },
+      { name: 'Configuration & development', body: 'Set up the applications and build apps, flows and reports in a test environment.' },
+      { name: 'Integration', body: 'Connect Microsoft products with each other and with your existing systems.' },
+      { name: 'Testing', body: 'Test real scenarios with your team before anything goes live.' },
+      { name: 'Handover & support', body: 'Train users, document the solution and support it after launch.' },
+    ],
+    faq: [
+      { q: 'Are you a Microsoft partner?', a: 'We are an independent technology company. We plan, configure and build on Microsoft products, and we will always tell you plainly about any partner programme status rather than imply one.' },
+      { q: 'Is Business Central the same as Dynamics 365?', a: 'Business Central is one product within the Dynamics 365 family: an all-in-one business management application for small and mid-sized organisations. Other Dynamics 365 apps cover areas such as sales and customer service.' },
+      { q: 'Do we need to buy new licences?', a: 'Not necessarily. We start from what you already have and recommend licences only where a requirement genuinely needs them. Licences are purchased in your own name.' },
+      { q: 'Can Microsoft products connect to our other systems?', a: 'Usually, through standard connectors or APIs. We confirm what is possible for your specific systems during discovery.' },
+    ],
+    related: ['erp', 'ai', 'software'],
+    ctaLine: 'Planning a Microsoft project? Let’s map it together.',
+  },
 }

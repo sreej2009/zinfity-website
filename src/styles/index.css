@@ -451,8 +451,8 @@
   inset: 0;
   z-index: 60;
   pointer-events: none;
-  opacity: 0.035;
-  mix-blend-mode: multiply;
+  /* No blend mode: blending a fixed full-screen layer forces a GPU re-blend of the page every scroll frame. */
+  opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -583,8 +583,25 @@
 .tech-marquee__row {
   overflow: hidden;
   padding-block: 4px;
-  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  position: relative;
+}
+/* Edge fades as static overlays (cheaper than masking moving content). */
+.tech-marquee__row::before,
+.tech-marquee__row::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  z-index: 1;
+  width: 7%;
+  pointer-events: none;
+}
+.tech-marquee__row::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--color-canvas), transparent);
+}
+.tech-marquee__row::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--color-canvas), transparent);
 }
 .tech-marquee__track {
   padding-right: 0.75rem; /* matches the gap so the -50% loop is seamless */
@@ -595,4 +612,62 @@
 }
 .tech-marquee:hover .tech-marquee__track {
   animation-play-state: paused;
+}
+
+/* Service pages: a short dash travelling along a connector (paths use pathLength="1"). */
+@media (prefers-reduced-motion: no-preference) {
+  .flow-dash {
+    stroke-dasharray: 0.08 0.92;
+    animation: flow-dash 2.6s linear infinite;
+  }
+  .flow-dash--slow {
+    animation-duration: 4s;
+  }
+  .is-paused .flow-dash {
+    animation-play-state: paused;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flow-dash {
+    display: none;
+  }
+}
+@keyframes flow-dash {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Solutions map: signals looping along the selected route. */
+.signal-loop {
+  offset-rotate: 0deg;
+  offset-distance: 0%;
+  animation: signal-loop 3.4s var(--ease-in-out-quart) infinite;
+}
+@keyframes signal-loop {
+  0% { offset-distance: 0%; opacity: 0; }
+  8% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .signal-loop { display: none; }
+}
+
+@keyframes float {
+  0%, 100% { translate: -50% -50%; }
+  50% { translate: -50% calc(-50% - 6px); }
+}
+
+@keyframes float-x {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(6px); }
+}
+
+/* Floating WhatsApp link hides while the mobile menu is open. */
+[data-menu='open'] .wa-float {
+  display: none;
 }

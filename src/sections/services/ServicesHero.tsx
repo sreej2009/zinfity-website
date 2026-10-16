@@ -49,7 +49,7 @@ function Sculpture() {
 
         {/* The Z mark (real logo asset) with a soft reflection */}
         <div className="absolute inset-x-0 top-[34%] flex justify-center">
-          <div data-z className="relative w-[42%]">
+          <div data-z className="relative w-[42%] will-change-transform">
             <Logo variant="mark" priority alt="" className="relative block h-auto w-full drop-shadow-[0_26px_22px_rgb(58_42_29/0.32)]" />
             <span className="absolute -bottom-[4%] left-1/2 -z-10 h-[10%] w-[90%] -translate-x-1/2 rounded-[50%] bg-[#3a2a1d]/30 blur-md" />
           </div>
@@ -72,7 +72,7 @@ function Sculpture() {
               className="absolute"
               style={{ left: `${c.x}%`, top: `${c.y}%`, transform: `translate(-50%, -50%) perspective(900px) rotateY(${c.ry}deg)` }}
             >
-              <div className="flex items-center gap-2.5 rounded-xl border border-white/80 bg-white/45 px-3 py-2.5 shadow-[0_18px_36px_-16px_rgb(58_42_29/0.35),inset_0_1px_0_rgb(255_255_255/0.9)] backdrop-blur-md sm:px-3.5 sm:py-3">
+              <div className="flex items-center gap-2.5 rounded-xl border border-white/80 bg-[#fbf8f3]/90 will-change-transform px-3 py-2.5 shadow-[0_18px_36px_-16px_rgb(58_42_29/0.35),inset_0_1px_0_rgb(255_255_255/0.9)] sm:px-3.5 sm:py-3">
                 <Icon size={20} strokeWidth={1.4} className="shrink-0 text-fg" aria-hidden="true" />
                 <span className="text-[0.62rem] font-medium leading-tight text-fg sm:text-[0.72rem]">
                   {c.label[0]}
@@ -88,7 +88,7 @@ function Sculpture() {
   )
 }
 
-/** /services hero: editorial introduction, Z sculpture and the integrated eight-service index. */
+/** /services hero: editorial introduction, Z sculpture and the integrated service index. */
 export function ServicesHero() {
   const root = useRef<HTMLElement>(null)
 

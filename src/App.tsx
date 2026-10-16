@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { BrowserRouter, Outlet, Route, Routes, useLocation } from 'react-router'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
+import { WhatsAppButton } from '@/components/layout/WhatsAppButton'
 import { RouteCurtain } from '@/components/layout/RouteCurtain'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { ScrollProvider } from '@/lib/scroll'
@@ -10,7 +11,6 @@ import Home from '@/pages/Home'
 const ServicesPage = lazy(() => import('@/pages/ServicesPage'))
 const ServiceDetailPage = lazy(() => import('@/pages/ServiceDetailPage'))
 const SolutionsPage = lazy(() => import('@/pages/SolutionsPage'))
-const WorkPage = lazy(() => import('@/pages/WorkPage'))
 const ProjectPage = lazy(() => import('@/pages/ProjectPage'))
 const AboutPage = lazy(() => import('@/pages/AboutPage'))
 const BlogPage = lazy(() => import('@/pages/BlogPage'))
@@ -19,6 +19,7 @@ const CareersPage = lazy(() => import('@/pages/CareersPage'))
 const JobPage = lazy(() => import('@/pages/JobPage'))
 const ContactPage = lazy(() => import('@/pages/ContactPage'))
 const NotFound = lazy(() => import('@/pages/NotFound'))
+const AdminPage = lazy(() => import('@/pages/AdminPage'))
 
 function PageFallback() {
   return (
@@ -59,6 +60,7 @@ function SiteLayout() {
         </ErrorBoundary>
       </main>
       <Footer />
+      <WhatsAppButton />
       <RouteCurtain />
       <div className="grain" aria-hidden="true" />
     </ScrollProvider>
@@ -74,7 +76,6 @@ export default function App() {
           <Route path="services" element={<ServicesPage />} />
           <Route path="services/:slug" element={<ServiceDetailPage />} />
           <Route path="solutions" element={<SolutionsPage />} />
-          <Route path="work" element={<WorkPage />} />
           <Route path="work/:slug" element={<ProjectPage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="blog" element={<BlogPage />} />
@@ -82,6 +83,7 @@ export default function App() {
           <Route path="careers" element={<CareersPage />} />
           <Route path="careers/:slug" element={<JobPage />} />
           <Route path="contact" element={<ContactPage />} />
+          <Route path="admin" element={<AdminPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

@@ -84,6 +84,29 @@ function Rings({ state, compact }: { state: RingsState; compact: boolean }) {
   )
 }
 
+/**
+ * Compile every shader (including the environment-lit variants) in the background
+ * and draw one frame before the scene is shown, so scrolling never waits on WebGL.
+ * Mounted last, so the environment map and rings already exist.
+ */
+function WarmUp({ onReady }: { onReady: () => void }) {
+  const { gl, scene, camera } = useThree()
+  useEffect(() => {
+    let alive = true
+    gl.compileAsync(scene, camera)
+      .catch(() => undefined)
+      .then(() => {
+        if (!alive) return
+        gl.render(scene, camera)
+        requestAnimationFrame(onReady)
+      })
+    return () => {
+      alive = false
+    }
+  }, [gl, scene, camera, onReady])
+  return null
+}
+
 type Props = { state: RingsState; active: boolean; compact: boolean; onReady: () => void }
 
 /** Interlocking metallic rings. Renders only while `active` (in view). */
@@ -94,7 +117,6 @@ export default function TechRingsScene({ state, active, compact, onReady }: Prop
       dpr={compact ? [1, 1.5] : [1, 1.75]}
       camera={{ fov: 32, position: [0, 0, 5.1] }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-      onCreated={() => requestAnimationFrame(onReady)}
       style={{ position: 'absolute', inset: 0 }}
       aria-hidden="true"
     >
@@ -103,6 +125,7 @@ export default function TechRingsScene({ state, active, compact, onReady }: Prop
       <directionalLight position={[-4, -2, 2]} intensity={0.5} color="#c79b69" />
       <Studio />
       <Rings state={state} compact={compact} />
+      <WarmUp onReady={onReady} />
     </Canvas>
   )
 }

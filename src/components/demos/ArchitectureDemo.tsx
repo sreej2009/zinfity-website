@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Play } from 'lucide-react'
 import { DemoFrame, Seg } from './DemoFrame'
+import { useInView } from '@/hooks/useInView'
+import { gsap, MOTION, useGSAP } from '@/lib/gsap'
 
 const layers = [
   { name: 'Interface', detail: 'Web and mobile screens send the request and show the result.', modules: ['Portal', 'Admin', 'Mobile'] },
@@ -10,12 +12,36 @@ const layers = [
 ]
 
 /** Custom software: a layered platform in CSS 3D; a request travels down and back up. */
-export function ArchitectureDemo() {
+export function ArchitectureDemo({ tone = 'dark', blueprint = false }: { tone?: 'dark' | 'light'; blueprint?: boolean }) {
   const [active, setActive] = useState(0)
   const [running, setRunning] = useState(false)
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
+  const root = useRef<HTMLDivElement>(null)
+  const stack = useRef<HTMLDivElement>(null)
+  const seen = useInView(root, { once: true, threshold: 0.5 })
 
   useEffect(() => () => timers.current.forEach(clearTimeout), [])
+
+  // Play one request through the layers the first time the demo is seen.
+  useEffect(() => {
+    if (seen && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) run()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [seen])
+
+  // Exploded view: layers start spread apart and come together as you scroll.
+  useGSAP(
+    () => {
+      if (!blueprint) return
+      gsap.matchMedia().add(MOTION, () => {
+        gsap.fromTo(
+          stack.current,
+          { '--gap': '78px' },
+          { '--gap': '34px', ease: 'none', scrollTrigger: { trigger: root.current, start: 'top 85%', end: 'center 45%', scrub: 0.6 } },
+        )
+      })
+    },
+    { scope: root, dependencies: [blueprint] },
+  )
 
   const run = () => {
     timers.current.forEach(clearTimeout)
@@ -26,7 +52,9 @@ export function ArchitectureDemo() {
   }
 
   return (
+    <div ref={root}>
     <DemoFrame
+      tone={tone}
       title="A platform in clear layers"
       controls={
         <Seg on={running} onClick={run} label="Send a request through the platform">
@@ -35,18 +63,24 @@ export function ArchitectureDemo() {
       }
     >
       <div className="grid items-center gap-8 px-5 py-10 lg:grid-cols-12 lg:px-10">
-        <div className="lg:col-span-7" style={{ perspective: '1100px' }}>
-          <div className="mx-auto max-w-[30rem]" style={{ transform: 'rotateX(52deg) rotateZ(-32deg)', transformStyle: 'preserve-3d' }}>
+        {/* Phones: a flat, readable stack. Larger screens: the tilted 3D view. */}
+        <div className="lg:col-span-7 sm:[perspective:1100px]">
+          {/* Flatter tilt on phones keeps every layer readable */}
+          <div
+            ref={stack}
+            className="mx-auto max-w-[30rem] sm:[transform:rotateX(52deg)_rotateZ(-32deg)]"
+            style={{ transformStyle: 'preserve-3d', ['--gap' as string]: '34px' }}
+          >
             {layers.map((l, i) => (
               <button
                 key={l.name}
                 type="button"
                 onClick={() => setActive(i)}
                 aria-pressed={active === i}
-                className={`relative mb-[-1.2rem] block w-full rounded-2xl border p-4 text-left transition-all duration-500 ${
+                className={`relative mb-2 block w-full rounded-2xl sm:mb-[-1.2rem] border p-4 text-left transition-all duration-500 ${
                   active === i ? 'border-accent bg-accent/20 shadow-[0_0_60px_rgb(217_182_144/0.35)]' : 'border-line-strong bg-surface/80'
                 }`}
-                style={{ transform: `translateZ(${(layers.length - i) * 34 + (active === i ? 18 : 0)}px)` }}
+                style={{ transform: `translateZ(calc(var(--gap) * ${layers.length - i} + ${active === i ? 18 : 0}px))` }}
               >
                 <span className="eyebrow text-[0.6rem] text-subtle">L{i + 1}</span>
                 <span className="mt-1 block text-[0.95rem] font-medium">{l.name}</span>
@@ -76,5 +110,6 @@ export function ArchitectureDemo() {
         </div>
       </div>
     </DemoFrame>
+    </div>
   )
 }

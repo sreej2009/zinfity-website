@@ -294,6 +294,34 @@ const compositions: Record<ServiceVisualKey, () => ReactNode> = {
       </>
     )
   },
+  microsoft: () => (
+    <>
+      {[
+        [70, 50],
+        [160, 50],
+        [70, 140],
+        [160, 140],
+      ].map(([x, y], k) => (
+        <g key={k}>
+          <Box x={x} y={y} w={78} h={78} r={10} i={k} accent={k === 0} />
+          <Fill x={x + 12} y={y + 14} w={38} h={7} i={k + 2} o={0.22} />
+          <Fill x={x + 12} y={y + 28} w={54} h={5} i={k + 2} o={0.1} />
+        </g>
+      ))}
+      <Fill x={172} y={152} w={10} h={26} i={6} accent />
+      <Fill x={186} y={164} w={10} h={14} i={6} accent />
+      <Fill x={200} y={158} w={10} h={20} i={6} accent />
+      <Line d="M82 98 l10 -14 l12 8 l14 -18" i={6} accent />
+      <Line d="M238 128 H274" i={7} strokeDasharray="3 4" />
+      <Line d="M276 150 a22 22 0 0 1 8 -40 a30 30 0 0 1 56 6 a20 20 0 0 1 -4 34 Z" i={8} accent />
+      <Line d="M300 150 V200 M300 200 H230 M300 200 H350" i={9} />
+      <Box x={196} y={226} w={68} h={30} r={6} i={10} />
+      <Box x={318} y={226} w={60} h={30} r={6} i={10} />
+      <Label x={70} y={250} i={11}>
+        APPS · DATA · CLOUD
+      </Label>
+    </>
+  ),
 }
 
 export function ServiceVisual({ visual, className = '' }: { visual: ServiceVisualKey; className?: string }) {

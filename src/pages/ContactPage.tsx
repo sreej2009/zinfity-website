@@ -4,6 +4,7 @@ import { Seo } from '@/components/Seo'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { EnquiryForm } from '@/components/forms/EnquiryForm'
 import { site } from '@/config/site'
+import { SocialIcon } from '@/components/ui/SocialIcon'
 
 const nextSteps = ['We read every enquiry in full', 'We reply with questions or a call invitation', 'You receive a clear scope and plan']
 
@@ -49,11 +50,30 @@ export default function ContactPage() {
                   </a>
                 )}
                 {c.location && (
-                  <p className="flex items-center gap-3 text-muted">
-                    <MapPin size={16} className="text-accent-ink" aria-hidden="true" />
-                    {c.location}
+                  <p className="flex items-start gap-3 leading-relaxed text-muted">
+                    <MapPin size={16} className="mt-1 shrink-0 text-accent-ink" aria-hidden="true" />
+                    <span>
+                      <span className="block font-medium text-fg">{site.name}</span>
+                      {c.location}
+                    </span>
                   </p>
                 )}
+                <ul className="flex gap-3 pt-4" aria-label="Chat and social media">
+                  {[...(c.whatsapp ? [{ label: 'WhatsApp', href: `https://wa.me/${c.whatsapp}` }] : []), ...site.socials].map((so) => (
+                    <li key={so.label}>
+                      <a
+                        href={so.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${so.label === 'WhatsApp' ? 'Chat on WhatsApp' : `Zinfity Technologies on ${so.label}`} (opens in a new tab)`}
+                        title={so.label}
+                        className="grid h-12 w-12 place-items-center rounded-full border border-line-strong bg-surface text-fg transition-[background,border-color,color,transform] duration-300 hover:-translate-y-0.5 hover:border-fg hover:bg-fg hover:text-accent"
+                      >
+                        <SocialIcon label={so.label} size={20} />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </address>
             )}
           </div>

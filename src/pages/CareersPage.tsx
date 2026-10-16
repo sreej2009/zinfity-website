@@ -5,8 +5,10 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { ButtonAnchor } from '@/components/ui/Button'
 import { JobRow } from '@/components/blocks/JobRow'
 import { ApplicationForm } from '@/components/forms/ApplicationForm'
-import { jobDepartments, openJobs, sampleJobs, type Job } from '@/content/careers'
+import { jobDepartments, openJobs, type Job } from '@/content/careers'
 import { useReveal } from '@/hooks/useReveal'
+import { PrincipleIndex } from '@/components/service/visuals/process'
+import { Flag, Gem, MessagesSquare, Shuffle } from 'lucide-react'
 
 const culture = [
   { title: 'Craft over shortcuts', body: 'We care about the details people notice and the ones they don’t — accessible interfaces, readable code, honest copy.' },
@@ -52,7 +54,6 @@ export default function CareersPage() {
   }
 
   const open = byDept(openJobs, dept)
-  const samples = byDept(sampleJobs, dept)
 
   return (
     <div ref={root}>
@@ -92,20 +93,18 @@ export default function CareersPage() {
         </div>
       </header>
 
-      <section aria-labelledby="culture" className="border-t border-line py-20 lg:py-28">
-        <div className="container-x grid gap-12 lg:grid-cols-12">
-          <h2 id="culture" className="text-[clamp(1.9rem,3.2vw,3rem)] font-medium leading-[1.02] tracking-[-0.04em] lg:col-span-4">
-            How we work together
-          </h2>
-          <ol className="grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:col-span-8">
-            {culture.map((c, i) => (
-              <li key={c.title} data-reveal className="border-t border-fg pt-5">
-                <p className="font-mono text-[0.75rem] text-subtle">0{i + 1}</p>
-                <h3 className="mt-3 text-xl font-medium tracking-[-0.02em]">{c.title}</h3>
-                <p className="mt-2 leading-relaxed text-muted">{c.body}</p>
-              </li>
-            ))}
-          </ol>
+      <section aria-labelledby="culture" className="border-t border-line bg-canvas-alt py-20 lg:py-28">
+        <div className="container-x">
+          <div className="mb-12 grid gap-6 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-7">
+              <p className="eyebrow text-accent-ink">Culture</p>
+              <h2 id="culture" className="mt-4 text-[clamp(2rem,3.6vw,3.4rem)] font-medium leading-[1.02] tracking-[-0.04em]">
+                How we work <span className="serif-accent metal-text">together</span>
+              </h2>
+            </div>
+            <p className="max-w-sm text-muted lg:col-span-4 lg:col-start-9">Four habits we hold each other to — on every project and with every client.</p>
+          </div>
+          <PrincipleIndex items={culture} icons={[Gem, Shuffle, Flag, MessagesSquare]} glyphs={['C', 'L', 'O', 'S']} />
         </div>
       </section>
 
@@ -118,7 +117,7 @@ export default function CareersPage() {
                 Current openings
               </h2>
             </div>
-            <Filters value={dept} onChange={setDept} />
+            {openJobs.length > 0 && <Filters value={dept} onChange={setDept} />}
           </div>
 
           {open.length > 0 ? (
@@ -141,22 +140,6 @@ export default function CareersPage() {
             </div>
           )}
 
-          {samples.length > 0 && (
-            <div className="mt-20">
-              <div className="flex flex-wrap items-center gap-4">
-                <h3 className="eyebrow text-muted">Example role listings</h3>
-                <span className="badge-sample">Samples — not open vacancies</span>
-              </div>
-              <p className="mt-4 max-w-2xl text-[0.94rem] leading-relaxed text-muted">
-                These listings show how roles are presented on this page. They are not currently open and do not describe confirmed terms.
-              </p>
-              <ul className="mt-8 border-t border-line">
-                {samples.map((j) => (
-                  <JobRow key={j.slug} job={j} />
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
       </section>
 
