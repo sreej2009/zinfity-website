@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { useSearchParams } from 'react-router'
 import { Seo } from '@/components/Seo'
+import { pageMeta } from '@/content/seo'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { ButtonAnchor } from '@/components/ui/Button'
 import { JobRow } from '@/components/blocks/JobRow'
@@ -57,7 +58,7 @@ export default function CareersPage() {
 
   return (
     <div ref={root}>
-      <Seo title="Careers" description="Careers at Zinfity Technologies — how we work, open positions and how to apply." />
+      <Seo {...pageMeta.careers} />
       {/* Status-first opening */}
       <header className="container-x pb-16 pt-[calc(var(--header-h)+3rem)] lg:pb-24 lg:pt-36">
         <Breadcrumbs items={[{ label: 'Careers' }]} />

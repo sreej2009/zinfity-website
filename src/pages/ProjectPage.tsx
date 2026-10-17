@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { Link, useParams } from 'react-router'
 import { Info } from 'lucide-react'
 import { Seo } from '@/components/Seo'
+import { projectMeta } from '@/content/seo'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { ButtonLink } from '@/components/ui/Button'
 import { ProjectArt } from '@/visuals/ProjectArt'
@@ -77,7 +78,7 @@ export default function ProjectPage() {
 
   return (
     <div ref={root}>
-      <Seo title={`${project.title}${concept ? ' (concept study)' : ''}`} description={project.description} />
+      <Seo {...projectMeta(project)} />
 
       <header className="container-x pb-14 pt-[calc(var(--header-h)+3rem)] lg:pb-20 lg:pt-36">
         <Breadcrumbs items={[{ label: project.title }]} />

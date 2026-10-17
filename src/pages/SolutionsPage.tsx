@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { Seo } from '@/components/Seo'
+import { pageMeta } from '@/content/seo'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { SystemsMap } from '@/sections/SystemsMap'
 import { solutions } from '@/content/solutions'
@@ -17,10 +18,7 @@ export default function SolutionsPage() {
 
   return (
     <div ref={root}>
-      <Seo
-        title="Solutions"
-        description="How interfaces, applications, integrations, data and business operations connect — and the solution architectures Zinfity designs across them."
-      />
+      <Seo {...pageMeta.solutions} />
 
       {/* The map is the page: compact title, then straight into the architecture */}
       <section aria-labelledby="sol-title" className="container-x pb-16 pt-[calc(var(--header-h)+3rem)] lg:pt-36">

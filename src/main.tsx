@@ -7,6 +7,10 @@ import '@/styles/index.css'
 import App from './App'
 import { ScrollTrigger } from '@/lib/gsap'
 
+// Each route's HTML file carries static metadata for crawlers and link previews.
+// The app renders the same tags itself (components/Seo.tsx), so drop the static set first.
+document.head.querySelectorAll('[data-static-meta]').forEach((el) => el.remove())
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />

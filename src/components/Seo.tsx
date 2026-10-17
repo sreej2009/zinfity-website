@@ -1,26 +1,20 @@
 import { useLocation } from 'react-router'
 import { withBase } from '@/lib/base'
 import { site } from '@/config/site'
-
-type Props = {
-  title: string
-  description: string
-  /** Absolute or root-relative image path. */
-  image?: string
-  type?: 'website' | 'article'
-  noindex?: boolean
-  publishedTime?: string
-}
+import { defaultShareImage, fullTitle, type PageMeta } from '@/content/seo'
 
 /**
  * Per-page metadata. React 19 hoists <title>, <meta> and <link> into <head>.
  * Canonical and absolute URLs are only emitted when VITE_SITE_URL is set.
+ * The build writes the same tags into each route's HTML file (see vite.config.ts);
+ * main.tsx removes those before React renders, so the head never holds duplicates.
  */
-export function Seo({ title, description, image = withBase('/og-image.jpg'), type = 'website', noindex, publishedTime }: Props) {
+export function Seo({ title, description, image = withBase(defaultShareImage), type = 'website', noindex, publishedTime }: PageMeta) {
   const { pathname } = useLocation()
-  const full = title === site.name ? `${site.name} — ${site.tagline.replace(/\.$/, '')}` : `${title} — ${site.name}`
+  const full = fullTitle(title)
   const base = site.url?.replace(/\/+$/, '')
-  const url = base ? `${base}${pathname}` : undefined
+  // Non-indexable pages get no canonical, so they never point search engines elsewhere.
+  const url = base && !noindex ? `${base}${pathname}` : undefined
   const img = image.startsWith('http') ? image : base ? `${base}${image}` : undefined
 
   return (

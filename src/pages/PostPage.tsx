@@ -3,6 +3,7 @@ import { useParams } from 'react-router'
 import { marked } from 'marked'
 import { Check, Link2 } from 'lucide-react'
 import { Seo } from '@/components/Seo'
+import { postMeta } from '@/content/seo'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { Link } from 'react-router'
 import { PostMeta, PostThumb } from '@/components/blocks/PostCard'
@@ -94,7 +95,7 @@ export default function PostPage() {
 
   return (
     <div ref={root}>
-      <Seo title={post.title} description={post.excerpt} type="article" publishedTime={post.date} noindex={post.status === 'draft'} />
+      <Seo {...postMeta(post)} />
       <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
 
       <article>

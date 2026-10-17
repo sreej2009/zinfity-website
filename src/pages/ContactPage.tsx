@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { Mail, MapPin, Phone } from 'lucide-react'
 import { Seo } from '@/components/Seo'
+import { pageMeta } from '@/content/seo'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { EnquiryForm } from '@/components/forms/EnquiryForm'
 import { site } from '@/config/site'
@@ -13,10 +14,7 @@ export default function ContactPage() {
   const c = site.contact
   return (
     <div>
-      <Seo
-        title="Contact"
-        description="Start a project with Zinfity Technologies. Tell us about your website, app, software, ERP/CRM, marketing or automation needs."
-      />
+      <Seo {...pageMeta.contact} />
       <section aria-labelledby="contact-title" className="container-x pb-24 pt-[calc(var(--header-h)+3rem)] lg:pb-32 lg:pt-36">
         <Breadcrumbs items={[{ label: 'Contact' }]} />
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">

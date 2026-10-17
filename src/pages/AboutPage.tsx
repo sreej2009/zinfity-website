@@ -2,6 +2,7 @@ import { useRef, type ReactNode } from 'react'
 import { Link } from 'react-router'
 import { Check } from 'lucide-react'
 import { Seo } from '@/components/Seo'
+import { pageMeta } from '@/content/seo'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { Logo } from '@/components/ui/Logo'
 import { ApproachTimeline } from '@/sections/Approach'
@@ -73,10 +74,7 @@ export default function AboutPage() {
 
   return (
     <div ref={root}>
-      <Seo
-        title="About"
-        description="Zinfity Technologies is a design and engineering company. How we think, the principles we hold, and how we deliver projects."
-      />
+      <Seo {...pageMeta.about} />
 
       {/* Manifesto */}
       <header className="relative overflow-hidden pb-20 pt-[calc(var(--header-h)+3rem)] lg:pb-28 lg:pt-36">

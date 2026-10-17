@@ -1,5 +1,5 @@
 import { Seo } from '@/components/Seo'
-import { site } from '@/config/site'
+import { pageMeta } from '@/content/seo'
 import { HomeHero } from '@/sections/home/HomeHero'
 import { OurTechnologies } from '@/sections/home/OurTechnologies'
 import { ServiceDiscovery } from '@/sections/home/ServiceDiscovery'
@@ -17,10 +17,7 @@ import { HomeFaq } from '@/sections/home/HomeFaq'
 export default function Home() {
   return (
     <>
-      <Seo
-        title={site.name}
-        description="Zinfity Technologies designs and builds digital experiences, intelligent software and connected systems that help businesses move from ideas to impact."
-      />
+      <Seo {...pageMeta.home} />
       <HomeHero />
       <OurTechnologies />
       <ServiceDiscovery />

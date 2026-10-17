@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import { Seo } from '@/components/Seo'
+import { pageMeta } from '@/content/seo'
 import { ButtonLink } from '@/components/ui/Button'
 import { Logo } from '@/components/ui/Logo'
 
@@ -13,7 +14,7 @@ const shortcuts = [
 export default function NotFound() {
   return (
     <section className="container-x grid min-h-[85svh] items-center gap-12 pb-20 pt-[calc(var(--header-h)+3rem)] lg:grid-cols-12">
-      <Seo title="Page not found" description="The page you were looking for could not be found." noindex />
+      <Seo {...pageMeta.notFound} />
       <div className="lg:col-span-7">
         <p className="eyebrow text-accent-ink">Error 404</p>
         <h1 className="text-display mt-6 text-balance">

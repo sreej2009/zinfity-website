@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { Link, useParams } from 'react-router'
 import { AlertTriangle } from 'lucide-react'
 import { Seo } from '@/components/Seo'
+import { jobMeta } from '@/content/seo'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { ButtonAnchor } from '@/components/ui/Button'
 import { ApplicationForm } from '@/components/forms/ApplicationForm'
@@ -45,7 +46,7 @@ export default function JobPage() {
 
   return (
     <div ref={root}>
-      <Seo title={`${job.title}${job.sample ? ' (sample listing)' : ''}`} description={job.summary} noindex={job.sample} />
+      <Seo {...jobMeta(job)} />
       <header className="container-x pb-16 pt-[calc(var(--header-h)+3rem)] lg:pt-36">
         <Breadcrumbs items={[{ label: 'Careers', to: '/careers' }, { label: job.title }]} />
         <p className="eyebrow text-muted">Careers · {job.department}</p>

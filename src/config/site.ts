@@ -1,4 +1,5 @@
 import { withBase } from '@/lib/base'
+import { brand } from '@/content/seo'
 
 /**
  * Site-wide configuration.
@@ -12,9 +13,9 @@ const env = import.meta.env
 const clean = (v?: string) => (v && v.trim() ? v.trim() : undefined)
 
 export const site = {
-  name: 'Zinfity Technologies',
+  name: brand.name,
   shortName: 'Zinfity',
-  tagline: 'Technology That Works Together.',
+  tagline: brand.tagline,
   url: clean(env.VITE_SITE_URL),
 
   contact: {

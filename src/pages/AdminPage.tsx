@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from 'react'
 import { Briefcase, Download, Inbox, Loader2, LogOut, Mail, Phone, RefreshCw, Search, Trash2 } from 'lucide-react'
 import { Seo } from '@/components/Seo'
+import { pageMeta } from '@/content/seo'
 import { Logo } from '@/components/ui/Logo'
 import { Button } from '@/components/ui/Button'
 import {
@@ -341,7 +342,7 @@ export default function AdminPage() {
 
   return (
     <>
-      <Seo title="Admin" description="Private admin area." noindex />
+      <Seo {...pageMeta.admin} />
       {!dbConfigured ? (
         <div className="container-x grid min-h-[70vh] place-items-center pt-[var(--header-h)]">
           <div className="max-w-md text-center">

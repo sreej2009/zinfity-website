@@ -64,6 +64,7 @@ export function OurTechnologies() {
 
   const root = useRef<HTMLElement>(null)
   const stage = useRef<HTMLDivElement>(null)
+  const stageOut = useRef<HTMLDivElement>(null)
   const layer = useRef<HTMLDivElement>(null)
   const panelEls = useRef<(HTMLDivElement | null)[]>([])
   const hovered = useRef(-1)
@@ -208,7 +209,7 @@ export function OurTechnologies() {
           { autoAlpha: 0, y: 40 },
           { autoAlpha: 1, y: 0, ease: 'none', scrollTrigger: { trigger: stage.current, start: 'top 95%', end: 'top 45%', scrub: 0.6 } },
         )
-        gsap.to(stage.current, {
+        gsap.to(stageOut.current, {
           autoAlpha: 0.35,
           ease: 'none',
           scrollTrigger: { trigger: stage.current, start: 'bottom 15%', end: 'bottom -15%', scrub: 0.6 },
@@ -272,53 +273,57 @@ export function OurTechnologies() {
         </div>
       </div>
 
-      {/* 3D ecosystem (decorative — the accessible list follows below) */}
-      <div
-        ref={stage}
-        aria-hidden="true"
-        onPointerMove={onPointerMove}
-        onPointerLeave={onPointerLeave}
-        className="relative mx-auto mt-6 h-[22rem] w-full max-w-[96rem] sm:h-[28rem] lg:mt-4 lg:h-[38rem]"
-      >
-        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[70%] w-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(199_155_105/0.16),transparent)]" />
-        <div className="pointer-events-none absolute bottom-[10%] left-1/2 h-8 w-[min(36%,22rem)] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(closest-side,rgb(58_42_29/0.18),transparent)]" />
+      {/* 3D ecosystem (decorative — the accessible list follows below).
+          The wrapper carries the scroll-away fade and the stage carries the entrance, so the
+          two scroll animations never share one opacity value. */}
+      <div ref={stageOut}>
+        <div
+          ref={stage}
+          aria-hidden="true"
+          onPointerMove={onPointerMove}
+          onPointerLeave={onPointerLeave}
+          className="relative mx-auto mt-6 h-[22rem] w-full max-w-[96rem] sm:h-[28rem] lg:mt-4 lg:h-[38rem]"
+        >
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[70%] w-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(199_155_105/0.16),transparent)]" />
+          <div className="pointer-events-none absolute bottom-[10%] left-1/2 h-8 w-[min(36%,22rem)] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(closest-side,rgb(58_42_29/0.18),transparent)]" />
 
-        {/* Sculpture: a centred square so the rings keep their proportions */}
-        <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 aspect-square h-[82%] -translate-x-1/2 -translate-y-1/2 lg:h-[92%]">
-          {(!show3D || !ready) && <RingsFallback />}
-          {show3D && near && (
-            <ErrorBoundary fallback={<FailedScene onFail={() => setUse3D(false)} />}>
-              <Suspense fallback={null}>
-                <div className={`absolute inset-0 transition-opacity duration-1000 ${ready ? 'opacity-100' : 'opacity-0'}`}>
-                  <TechRingsScene state={state} active={visible} compact={!isDesktop} onReady={onReady} />
-                </div>
-              </Suspense>
-            </ErrorBoundary>
-          )}
-        </div>
+          {/* Sculpture: a centred square so the rings keep their proportions */}
+          <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 aspect-square h-[82%] -translate-x-1/2 -translate-y-1/2 lg:h-[92%]">
+            {(!show3D || !ready) && <RingsFallback />}
+            {show3D && near && (
+              <ErrorBoundary fallback={<FailedScene onFail={() => setUse3D(false)} />}>
+                <Suspense fallback={null}>
+                  <div className={`absolute inset-0 transition-opacity duration-1000 ${ready ? 'opacity-100' : 'opacity-0'}`}>
+                    <TechRingsScene state={state} active={visible} compact={!isDesktop} onReady={onReady} />
+                  </div>
+                </Suspense>
+              </ErrorBoundary>
+            )}
+          </div>
 
-        {/* Orbiting glass panels */}
-        <div ref={layer} className="absolute inset-0">
-          {panels.map((t, i) => (
-            <div
-              key={`${sceneCat}-${t.name}`}
-              ref={(el) => {
-                panelEls.current[i] = el
-              }}
-              onPointerEnter={() => (hovered.current = i)}
-              onPointerLeave={() => (hovered.current = -1)}
-              className="absolute left-1/2 top-1/2 will-change-transform"
-              style={{ opacity: 0 }}
-            >
+          {/* Orbiting glass panels */}
+          <div ref={layer} className="absolute inset-0">
+            {panels.map((t, i) => (
               <div
-                data-card
-                className="flex w-24 flex-col items-center gap-2 rounded-2xl border border-[#ded9d0]/90 bg-[#fbfaf7]/95 px-3 pb-3 pt-4 shadow-[0_18px_40px_-18px_rgb(58_42_29/0.35),inset_0_1px_0_rgb(255_255_255/0.9)] transition-[box-shadow,border-color] duration-500 hover:border-accent/70 hover:shadow-[0_26px_50px_-18px_rgb(140_94_52/0.4),inset_0_1px_0_rgb(255_255_255/0.9)] sm:w-28 lg:w-[8.25rem] lg:pt-5"
+                key={`${sceneCat}-${t.name}`}
+                ref={(el) => {
+                  panelEls.current[i] = el
+                }}
+                onPointerEnter={() => (hovered.current = i)}
+                onPointerLeave={() => (hovered.current = -1)}
+                className="absolute left-1/2 top-1/2 will-change-transform"
+                style={{ opacity: 0 }}
               >
-                <img src={t.logo} alt="" draggable={false} className="h-8 w-8 object-contain lg:h-10 lg:w-10" />
-                <span className="whitespace-nowrap text-center text-[0.72rem] font-medium tracking-[-0.01em] text-fg lg:text-[0.8rem]">{t.name}</span>
+                <div
+                  data-card
+                  className="flex w-24 flex-col items-center gap-2 rounded-2xl border border-[#ded9d0]/90 bg-[#fbfaf7]/95 px-3 pb-3 pt-4 shadow-[0_18px_40px_-18px_rgb(58_42_29/0.35),inset_0_1px_0_rgb(255_255_255/0.9)] transition-[box-shadow,border-color] duration-500 hover:border-accent/70 hover:shadow-[0_26px_50px_-18px_rgb(140_94_52/0.4),inset_0_1px_0_rgb(255_255_255/0.9)] sm:w-28 lg:w-[8.25rem] lg:pt-5"
+                >
+                  <img src={t.logo} alt="" draggable={false} className="h-8 w-8 object-contain lg:h-10 lg:w-10" />
+                  <span className="whitespace-nowrap text-center text-[0.72rem] font-medium tracking-[-0.01em] text-fg lg:text-[0.8rem]">{t.name}</span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 

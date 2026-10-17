@@ -6,6 +6,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { ProjectArt } from '@/visuals/ProjectArt'
 import { serviceById, servicePath, services } from '@/content/services'
 import { serviceDetails } from '@/content/service-details'
+import { serviceMeta } from '@/content/seo'
 import { projectById, projectPath } from '@/content/work'
 import { contactHref } from '@/lib/enquiry'
 import { firstSteps } from '@/content/service-extras'
@@ -33,9 +34,7 @@ export function useServicePage(id: string) {
 }
 
 export function ServiceSeo({ id }: { id: string }) {
-  const s = serviceById(id)!
-  const d = serviceDetails[id]
-  return <Seo title={s.title} description={d.intro.length > 158 ? d.intro.slice(0, 155).replace(/\s+\S*$/, '') + '…' : d.intro} />
+  return <Seo {...serviceMeta(id)} />
 }
 
 /** Breadcrumbs + "Service 0X / 08" label. */

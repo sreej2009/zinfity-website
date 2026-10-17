@@ -10,7 +10,9 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preload" as="image" href="/brand/logo-on-light.webp" type="image/webp" />
     <link rel="preload" as="image" href="/brand/z-mark.webp" type="image/webp" />
-    <!-- Page titles, descriptions, canonical and Open Graph tags are rendered per route (src/components/Seo.tsx). -->
+    <!-- Each route's title, description, canonical and Open Graph tags are written at the marker below
+         by the build (vite.config.ts → routeFiles) and rendered again by src/components/Seo.tsx. -->
+    <!-- route-meta -->
   </head>
   <body>
     <noscript>

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { ArrowUpRight } from 'lucide-react'
 import { Seo } from '@/components/Seo'
+import { pageMeta } from '@/content/seo'
 import { ServicesHero } from '@/sections/services/ServicesHero'
 import { EngagementModels } from '@/sections/services/EngagementModels'
 import { ServiceStage } from '@/components/blocks/ServiceStage'
@@ -55,10 +56,7 @@ export default function ServicesPage() {
 
   return (
     <div ref={root}>
-      <Seo
-        title="Services"
-        description="Website and mobile app development, custom software, ERP & CRM, digital marketing, UI/UX design, e-commerce and AI automation — the Zinfity service directory."
-      />
+      <Seo {...pageMeta.services} />
 
       <ServicesHero />
 

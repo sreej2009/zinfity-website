@@ -2,6 +2,7 @@ import { useMemo, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router'
 import { Search, X } from 'lucide-react'
 import { Seo } from '@/components/Seo'
+import { pageMeta } from '@/content/seo'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { ButtonLink } from '@/components/ui/Button'
 import { PostMeta, PostThumb } from '@/components/blocks/PostCard'
@@ -38,10 +39,7 @@ export default function BlogPage() {
 
   return (
     <div ref={root}>
-      <Seo
-        title="Blog"
-        description="The Zinfity Journal: practical notes on websites, mobile apps, custom software, ERP & CRM, automation and digital transformation."
-      />
+      <Seo {...pageMeta.blog} />
 
       {/* Masthead */}
       <header className="container-x pt-[calc(var(--header-h)+3rem)] lg:pt-36">
